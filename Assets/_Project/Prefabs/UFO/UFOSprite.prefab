@@ -126,7 +126,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813dba2997743a248bb1c561830fc64e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 5
+  <MoveForce>k__BackingField: 5
+  <MaxSpeed>k__BackingField: 3
+  <Drag>k__BackingField: 0.5
+  <CountScoreUfo>k__BackingField: 20
+  <ScoreValue>k__BackingField: 10
 --- !u!60 &-3260459890862810879
 PolygonCollider2D:
   m_ObjectHideFlags: 0

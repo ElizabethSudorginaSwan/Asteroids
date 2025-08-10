@@ -1,126 +1,137 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro;
-using UnityEngine.UI;
+using SpaceShooter.Asteroids;
+using SpaceShooter.UFOs;
+using SpaceShooter.Enemies;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMovement : MonoBehaviour
+namespace SpaceShooter.Player
 {
-    [field: SerializeField] public float MoveForce { get; private set; } = 10f; 
-    [field: SerializeField] public float MaxSpeed { get; private set; } = 5f;   
-    [field: SerializeField] public float Drag { get; private set; } = 2f;       
-    [field: SerializeField] public float RotationSpeed { get; private set; } = 120f; 
-
-    [field: SerializeField] public TMP_Text SpeedText { get; private set; }      
-    [field: SerializeField] public TMP_Text PositionText { get; private set; }    
-    [field: SerializeField] public TMP_Text RotationText { get; private set; }    
-
-    [field: SerializeField] public GameObject CanvasGo { get; private set; }      
-    [field: SerializeField] public GameObject CanvasGame { get; private set; }    
-    [field: SerializeField] public GameObject Player { get; private set; }  
-    
-    [field: SerializeField] public Button PlayAgainButton { get; private set; }  
-    [field: SerializeField] public ScoreManager ScoreManager { get; private set; }
-
-
-    private Rigidbody2D rb;
-    private bool shouldMoveForward; 
-    private float rotatonDirection; 
-
-    public bool live = true;
-
-    private void Awake()
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Shooter))]
+    public class PlayerMovement : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody2D>(); 
-        rb.drag = Drag; 
+        [field: SerializeField] public float MoveForce { get; private set; } 
+        [field: SerializeField] public float MaxSpeed { get; private set; } 
+        [field: SerializeField] public float Drag { get; private set; } 
+        [field: SerializeField] public float RotationSpeed { get; private set; } 
+        [field: SerializeField] public bool Live { get; private set; }
+        [field: SerializeField] public AsteroidSpawner AsteroidSpawner { get; private set; }
+        [field: SerializeField] public UFOSpawner UfoSpawner { get; private set; }
 
-        if (PlayAgainButton != null)
+        private Rigidbody2D _rb;
+        private bool _shouldMoveForward;
+        private float _rotationDirection;
+        private Shooter _shooter;
+        private PlayerInput _playerInput;
+        private PlayerUI _playerUI;
+        private bool _isPaused = false; 
+
+        private void Awake()
         {
-            PlayAgainButton.onClick.AddListener(ButtonPlayAgain);
-        }
-    }
+            _playerInput = new PlayerInput();
+            _shooter = GetComponent<Shooter>();
+            _playerUI = GetComponent<PlayerUI>();
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.drag = Drag;
 
-    public void Move() 
-    {
-        shouldMoveForward = true;
-    }
-
-    public void Rotate(int direction) 
-    {
-        rotatonDirection = direction;
-    }
-
-    private void FixedUpdate()
-    {
-        if (shouldMoveForward) 
-        {
-            Vector2 forwardDirection = transform.up; 
-
-            if (Vector2.Dot(rb.velocity, forwardDirection) < MaxSpeed)
+            if (TryGetComponent(out _playerUI))
             {
-                rb.AddForce(forwardDirection *  MoveForce, ForceMode2D.Force);
+                _playerUI.SetRbPlayer(_rb);
+            }
+
+            SetLive(true);
+        }
+
+        private void Update()
+        {
+            if (_isPaused) return;
+
+            _playerInput.UpdateInput();
+
+            if (_playerInput.MoveInput > 0)
+            {
+                Move();
+            }
+
+            Rotate(_playerInput.RotateInput);
+
+            if (_playerInput.ShootBulletPressed)
+            {
+                _shooter.ShootBullet();
+            }
+
+            if (_playerInput.ShootLazerPressed)
+            {
+                _shooter.ShootLazer();
             }
         }
 
-        if (rotatonDirection != 0) 
+        private void FixedUpdate()
         {
-            rb.MoveRotation(rb.rotation + rotatonDirection * RotationSpeed * Time.fixedDeltaTime);
+            if (_isPaused) return;
+
+            if (_shouldMoveForward)
+            {
+                Vector2 forward = transform.up;
+
+                if (Vector2.Dot(_rb.velocity, forward) < MaxSpeed)
+                {
+                    _rb.AddForce(forward * MoveForce, ForceMode2D.Force);
+                }
+            }
+
+            if (_rotationDirection != 0)
+            {
+                _rb.MoveRotation(_rb.rotation + _rotationDirection * RotationSpeed * Time.fixedDeltaTime);
+            }
+
+            _shouldMoveForward = false;
+
+            _playerUI.UpdateUI();
         }
 
-        shouldMoveForward = false;
-
-        UpdateSpeed();
-        UpdatePosition();
-        UpdateRotation();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        var asteroid = collision.GetComponent<AsteroidsEnemy>();
-        var smallAsteroid = collision.GetComponent<SmallAsteroidEnemy>();
-        var ufo = collision.GetComponent<UFOEnemy>();
-
-        if (asteroid != null || smallAsteroid != null || ufo != null)
+        public void Move()
         {
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0f;    
-            transform.position = Vector3.zero;
-            transform.rotation = Quaternion.identity;
-
-            Time.timeScale = 0f;
-            live = false;
-            UpdateSpeed();
-            UpdatePosition();
-            UpdateRotation();
-            CanvasGo.SetActive(true);
-            CanvasGame.SetActive(false);
+            _shouldMoveForward = true;
         }
-    }
 
-    public void ButtonPlayAgain()
-    {
-        Time.timeScale = 1f;
-        live = true;
-        CanvasGo.SetActive(false);
-        CanvasGame.SetActive(true);
-        ScoreManager.ResetScore();
-    }
+        public void Rotate(int direction)
+        {
+            _rotationDirection = direction;
+        }
 
-    private void UpdateSpeed() 
-    {
-        float currentSpeed = rb.velocity.magnitude; 
-        SpeedText.text = $"{currentSpeed.ToString("F2")}"; 
-    }
+        public void SetLive(bool newLiveState)
+        {
+            Live = newLiveState;
+        }
 
-    private void UpdatePosition() 
-    {
-        Vector2 playerPos = transform.position; 
-        PositionText.text = $"{playerPos.x:F1} | {playerPos.y:F1}";
-    }
+        public void SetPause(bool paused)
+        {
+            _isPaused = paused;
+            _rb.simulated = !paused;
 
-    private void UpdateRotation() 
-    {
-        float angle = transform.eulerAngles.z; 
-        RotationText.text = $"{angle:F0}°"; 
+            AsteroidSpawner.SetPause(paused);
+            UfoSpawner.SetPause(paused);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent<IDestructibleEnemy>(out _))
+            {
+                ResetPlayer();
+                _playerUI.UpdateUI();
+                SetLive(false);
+                SetPause(true);
+                _playerUI.ShowGameOver();
+            }
+        }
+
+        private void ResetPlayer()
+        {
+            _rb.velocity = Vector2.zero;
+            _rb.angularVelocity = 0f;
+            transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
+
+        
     }
 }

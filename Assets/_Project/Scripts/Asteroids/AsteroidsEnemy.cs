@@ -1,79 +1,93 @@
 using System.Collections.Generic;
 using UnityEngine;
+using SpaceShooter.Player;
+using SpaceShooter.Factories;
+using SpaceShooter.Enemies;
+using SpaceShooter.ObjectPool;
 
-public class AsteroidsEnemy : MonoBehaviour
+namespace SpaceShooter.Asteroids
 {
-    [field: SerializeField] public float Speed { get; private set; }
-    [field: SerializeField] public Transform[] DirectionPoints { get; private set; }
-    [field: SerializeField] public GameObject[] SmallAsteroids { get; private set; }
-
-    private int pointIndex; 
-
-    private SmallAsteroidEnemy smallAsteroidManager;
-    private ScoreManager scoreManager;
-    private PlayerMovement playerMovement;
-
-    public void SetWaypoints(Transform[] points)
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class AsteroidsEnemy : MonoBehaviour, IDestructibleEnemy
     {
-        DirectionPoints = points;
-        pointIndex = Random.Range(0, DirectionPoints.Length);
-    }
+        [field: SerializeField] public float MoveForce { get; private set; }
+        [field: SerializeField] public float MaxSpeed { get; private set; }
+        [field: SerializeField] public float Drag { get; private set; }
+        [field: SerializeField] public float MinSizeSmallAsteroid { get; private set; } 
+        [field: SerializeField] public float MaxSizeSmallAsteroid { get; private set; }
+        [field: SerializeField] public float MinRotateSmallAsteroid { get; private set; }
+        [field: SerializeField] public float MaxRotateSmallAsteroid { get; private set; }
+        [field: SerializeField] public int ScoreValue { get; private set; }
 
-    public void SetScoreManager(ScoreManager manager)
-    {
-        scoreManager = manager;
-    }
+        private BasePool _smallAsteroidPool;
+        private BasePool _asteroidPool;
+        private PlayerMovement _playerMovement;
+        private IEnemyFactory _smallAsteroidFactory;
+        private readonly List<GameObject> _allSmallAsteroids = new ();
+        private Rigidbody2D _rb;
+        private Vector2 _randomDirection;
 
-    public void SetPlayer(PlayerMovement player)
-    {
-        playerMovement = player;
-    }
-
-    private void Update()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, DirectionPoints[pointIndex].position, Speed * Time.deltaTime);
-
-        if (Vector2.Distance(transform.position, DirectionPoints[pointIndex].position) < 0.2f)
+        private void Awake()
         {
-            pointIndex = Random.Range(0, DirectionPoints.Length);
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.drag = Drag;
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out Lazer _))
+        private void Start()
         {
-            Destroy(gameObject);
-            Destroy(collision.gameObject);
-            scoreManager.AddScore(10);
+            _smallAsteroidFactory = new SmallAsteroidFactory(_smallAsteroidPool, MinSizeSmallAsteroid, MaxSizeSmallAsteroid, MinRotateSmallAsteroid, MaxRotateSmallAsteroid);
+            _randomDirection = Random.insideUnitCircle.normalized;
         }
-        else if (collision.TryGetComponent(out Bullet _))
+
+        private void FixedUpdate()
         {
-            Destroy(collision.gameObject);
+            if (_rb.velocity.magnitude < MaxSpeed)
+            {
+                _rb.AddForce(_randomDirection * MoveForce, ForceMode2D.Force);
+            }
+        }
+
+        public void SetSmallAsteroidPool(BasePool smallAsteroidPool)
+        {
+            _smallAsteroidPool = smallAsteroidPool;
+        }
+
+        public void SetAsteroidPool(BasePool asteroidPool)
+        {
+            _asteroidPool = asteroidPool;
+        }
+
+        public void SetPlayer(PlayerMovement player)
+        {
+            _playerMovement = player;
+        }
+
+        public void HandleBulletHit()
+        {
             SpawnSmallAsteroids();
-            Destroy(gameObject);
-
-            scoreManager.AddScore(5);
+            _asteroidPool.ReturnObject(gameObject);
         }
-    }
 
-    private void SpawnSmallAsteroids()
-    {
-        for (int i = 0; i < 2; i++)
+        public void HandleLazerHit() 
         {
-            int randomIndex = Random.Range(0, SmallAsteroids.Length);
+            _asteroidPool.ReturnObject(gameObject);
+        }
+        
+        private void SpawnSmallAsteroids()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                var smallAsteroid = _smallAsteroidFactory.CreateEnemy(transform.position, Quaternion.identity);
+                _smallAsteroidFactory.ConfigureEnemy(smallAsteroid, _playerMovement.transform);
 
-            GameObject smallAsteroid = Instantiate(SmallAsteroids[randomIndex], transform.position, Quaternion.identity);
-
-            if (!smallAsteroid.TryGetComponent(out SmallAsteroidEnemy smallEnemy)) continue;
-            smallEnemy.SetPlayer(playerMovement);
-            smallEnemy.SetScoreManager(scoreManager);
-            smallEnemy.SetWaypoints(DirectionPoints);
-            smallEnemy.AddToAsteroidList(smallAsteroid);
-
-            float randomSize = Random.Range(1f, 1.3f);
-            smallAsteroid.transform.localScale = new Vector2(randomSize, randomSize);
-            smallAsteroid.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+                if (smallAsteroid.TryGetComponent(out SmallAsteroidEnemy smallEnemy))
+                {
+                    smallEnemy.SetPlayer(_playerMovement);
+                    smallEnemy.SetParentList(_allSmallAsteroids);
+                    smallEnemy.SetSmallAsteroidPool(_smallAsteroidPool);
+                }
+            }
         }
     }
 }
+

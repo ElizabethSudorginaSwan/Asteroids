@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 3779622}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7, y: -6.57, z: 0}
+  m_LocalPosition: {x: 7, y: -5.628, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 68111078}
   - component: {fileID: 68111077}
   m_Layer: 5
-  m_Name: PotationPlayer
+  m_Name: RotationPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,27 +411,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 145005905}
-  - component: {fileID: 145005904}
+  - component: {fileID: 145005906}
   m_Layer: 0
-  m_Name: ScoreManager
+  m_Name: ScoreManagerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &145005904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145005903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ae3c4e712da91b459250ea76b374d3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <ScoreText>k__BackingField: {fileID: 894992186}
 --- !u!4 &145005905
 Transform:
   m_ObjectHideFlags: 0
@@ -442,6 +429,67 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1454.0126, y: 809.6913, z: -2.6234791}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &145005906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145005903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9168a4ed02e660a4887d01b96002ad4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FinalScoreText>k__BackingField: {fileID: 894992186}
+--- !u!1 &193832196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 193832198}
+  - component: {fileID: 193832197}
+  m_Layer: 0
+  m_Name: ScoreEventManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &193832197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193832196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53d664b8b1aa8c544b60213ebb506812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <LazerPool>k__BackingField: {fileID: 1023385069}
+  <BulletPool>k__BackingField: {fileID: 1819635037}
+  <ScoreManagerUI>k__BackingField: {fileID: 145005906}
+  <PlayerUI>k__BackingField: {fileID: 2088563528}
+--- !u!4 &193832198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193832196}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.079684, y: 7.4296746, z: -0.49768934}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -503,7 +551,7 @@ Transform:
   m_GameObject: {fileID: 253916067}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7, y: 6.43, z: 0}
+  m_LocalPosition: {x: 7, y: 5.607, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -534,7 +582,7 @@ Transform:
   m_GameObject: {fileID: 324648780}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.5, y: -3.3200002, z: 0}
+  m_LocalPosition: {x: -9.784, y: -3.3200002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -815,7 +863,7 @@ Transform:
   m_GameObject: {fileID: 512781955}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -6.57, z: 0}
+  m_LocalPosition: {x: 0, y: -5.599, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -976,7 +1024,7 @@ Transform:
   m_GameObject: {fileID: 521113069}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.5, y: 2.4299998, z: 0}
+  m_LocalPosition: {x: -9.788, y: 2.4299998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1161,8 +1209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ba6863f8249f64e91c27d87532c50e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Ufo>k__BackingField: {fileID: 7548519663342058718, guid: ac41aa107a66407408c04d55b911da8a, type: 3}
-  <SpawnPoint>k__BackingField:
+  <UfoPool>k__BackingField: {fileID: 2025600470}
+  <SpawnPoints>k__BackingField:
   - {fileID: 2037438432}
   - {fileID: 253916068}
   - {fileID: 1424468185}
@@ -1173,11 +1221,10 @@ MonoBehaviour:
   - {fileID: 999753904}
   - {fileID: 512781956}
   - {fileID: 3779623}
-  <TimerStart>k__BackingField: 5
-  <MinSize>k__BackingField: 1
-  <MaxSize>k__BackingField: 2
+  <MinSizeUFO>k__BackingField: 1
+  <MaxSizeUFO>k__BackingField: 2
+  <SpawnInterval>k__BackingField: 6
   <PlayerMovement>k__BackingField: {fileID: 2088563520}
-  <ScoreManager>k__BackingField: {fileID: 145005904}
 --- !u!114 &759588749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1190,12 +1237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 551a4b83a0129bd489943936a36d262f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Asteroids>k__BackingField:
-  - {fileID: 968193875401966019, guid: fd6f8343343e1314bbb73b2c4f0214ed, type: 3}
-  - {fileID: 7395613593544690364, guid: fc33b409f8414134ea8edffa3d03d813, type: 3}
-  - {fileID: 3641151726534789435, guid: e2e92324148d9fb40bdef92acaa1cdb3, type: 3}
-  - {fileID: 7623148182634177678, guid: 709e25603ba82a3448624b722e332487, type: 3}
-  <SpawnPoint>k__BackingField:
+  <AsteroidPool>k__BackingField: {fileID: 903778426}
+  <SmallAsteroidPool>k__BackingField: {fileID: 984588606}
+  <SpawnPoints>k__BackingField:
   - {fileID: 2037438432}
   - {fileID: 253916068}
   - {fileID: 1424468185}
@@ -1206,10 +1250,12 @@ MonoBehaviour:
   - {fileID: 999753904}
   - {fileID: 512781956}
   - {fileID: 3779623}
-  <MinSize>k__BackingField: 2
-  <MaxSize>k__BackingField: 3
+  <MinSizeAsteroid>k__BackingField: 2
+  <MaxSizeAsteroid>k__BackingField: 2.5
+  <MinRotateAsteroid>k__BackingField: 0
+  <MaxRotateAsteroid>k__BackingField: 360
+  <SpawnInterval>k__BackingField: 3
   <PlayerMovement>k__BackingField: {fileID: 2088563520}
-  <ScoreManager>k__BackingField: {fileID: 145005904}
 --- !u!1 &766759503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,6 +1696,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894992184}
   m_CullTransparentMesh: 1
+--- !u!1 &903778425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903778427}
+  - component: {fileID: 903778426}
+  m_Layer: 0
+  m_Name: AsteroidPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &903778426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903778425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e63249c480af6f4a842af68897cb733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabs:
+  - {fileID: 968193875401966019, guid: fd6f8343343e1314bbb73b2c4f0214ed, type: 3}
+  - {fileID: 7395613593544690364, guid: fc33b409f8414134ea8edffa3d03d813, type: 3}
+  - {fileID: 3641151726534789435, guid: e2e92324148d9fb40bdef92acaa1cdb3, type: 3}
+  - {fileID: 7623148182634177678, guid: 709e25603ba82a3448624b722e332487, type: 3}
+  _initialPoolSize: 10
+--- !u!4 &903778427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903778425}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 839.417, y: 474.4984, z: -12.000262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &912391512
 GameObject:
   m_ObjectHideFlags: 0
@@ -1846,11 +1942,61 @@ Transform:
   m_GameObject: {fileID: 959516577}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7, y: -6.57, z: 0}
+  m_LocalPosition: {x: -7, y: -5.613, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 363736725}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &984588605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 984588607}
+  - component: {fileID: 984588606}
+  m_Layer: 0
+  m_Name: SmallAsteroidPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &984588606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984588605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b8ea220bacae34ab339d2c2f1a82c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabs:
+  - {fileID: 968193875401966019, guid: 59471970a3a5ad94e98632ea5ffa616b, type: 3}
+  - {fileID: 7395613593544690364, guid: 004c5162d27b07b46ab6c611d7862422, type: 3}
+  - {fileID: 3641151726534789435, guid: 4130d9770e6cc8e4983a98dac409a0c0, type: 3}
+  - {fileID: 7623148182634177678, guid: 925b22c1271f1e545b6d24e65775041e, type: 3}
+  _initialPoolSize: 15
+--- !u!4 &984588607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984588605}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 839.417, y: 474.4984, z: -12.000262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &999753903
 GameObject:
@@ -1877,11 +2023,58 @@ Transform:
   m_GameObject: {fileID: 999753903}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.5, y: 2.4299998, z: 0}
+  m_LocalPosition: {x: 9.812, y: 2.4299998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 363736725}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1023385068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1023385070}
+  - component: {fileID: 1023385069}
+  m_Layer: 0
+  m_Name: LazerPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1023385069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023385068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aad95c8955aa28438c826e96e380f1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabs:
+  - {fileID: 5364518919253420642, guid: 974bf1bf83f26e548afa54fa96d2e803, type: 3}
+  _initialPoolSize: 5
+--- !u!4 &1023385070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023385068}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 839.417, y: 474.4984, z: -12.000262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1096155562
 GameObject:
@@ -2177,7 +2370,7 @@ Transform:
   m_GameObject: {fileID: 1260457914}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.5, y: -3.3200002, z: 0}
+  m_LocalPosition: {x: 9.793, y: -3.3200002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2713,7 +2906,7 @@ Transform:
   m_GameObject: {fileID: 1424468184}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7, y: 6.43, z: 0}
+  m_LocalPosition: {x: -7, y: 5.617, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2795,6 +2988,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529053543}
   m_CullTransparentMesh: 1
+--- !u!1 &1819635036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1819635038}
+  - component: {fileID: 1819635037}
+  m_Layer: 0
+  m_Name: BulletPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1819635037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819635036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66992ca83dcb0e648907757c33a07d50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabs:
+  - {fileID: 2546274680469705691, guid: 476bd2e3b56fdb74691b7a7db63c14e4, type: 3}
+  _initialPoolSize: 15
+--- !u!4 &1819635038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819635036}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 839.417, y: 474.4984, z: -12.000262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1880668921
 GameObject:
   m_ObjectHideFlags: 0
@@ -3226,6 +3466,53 @@ RectTransform:
   m_AnchoredPosition: {x: 137, y: 417}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2025600469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2025600471}
+  - component: {fileID: 2025600470}
+  m_Layer: 0
+  m_Name: UFOPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2025600470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025600469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6b3d7e700efba40a3354e37f309fad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabs:
+  - {fileID: 7548519663342058718, guid: ac41aa107a66407408c04d55b911da8a, type: 3}
+  _initialPoolSize: 5
+--- !u!4 &2025600471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025600469}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 839.417, y: 474.4984, z: -12.000262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2037438431
 GameObject:
   m_ObjectHideFlags: 0
@@ -3251,7 +3538,7 @@ Transform:
   m_GameObject: {fileID: 2037438431}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.43, z: 0}
+  m_LocalPosition: {x: 0, y: 5.596, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3336,11 +3623,11 @@ GameObject:
   - component: {fileID: 2088563519}
   - component: {fileID: 2088563518}
   - component: {fileID: 2088563525}
-  - component: {fileID: 2088563521}
   - component: {fileID: 2088563520}
   - component: {fileID: 2088563522}
   - component: {fileID: 2088563526}
   - component: {fileID: 2088563527}
+  - component: {fileID: 2088563528}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -3428,31 +3715,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c8595125cf7a6f4bb8891015c7d3600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MoveForce>k__BackingField: 20
-  <MaxSpeed>k__BackingField: 10
+  <MoveForce>k__BackingField: 30
+  <MaxSpeed>k__BackingField: 15
   <Drag>k__BackingField: 2
   <RotationSpeed>k__BackingField: 120
-  <SpeedText>k__BackingField: {fileID: 1119895664}
-  <PositionText>k__BackingField: {fileID: 342601500}
-  <RotationText>k__BackingField: {fileID: 1375980058}
-  <CanvasGo>k__BackingField: {fileID: 1910893777}
-  <CanvasGame>k__BackingField: {fileID: 1411380475}
-  <Player>k__BackingField: {fileID: 2088563516}
-  <PlayAgainButton>k__BackingField: {fileID: 1880668923}
-  <ScoreManager>k__BackingField: {fileID: 145005904}
-  live: 1
---- !u!114 &2088563521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088563516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6279b45001afcac44801a04e2bf94ae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  <Live>k__BackingField: 0
+  <AsteroidSpawner>k__BackingField: {fileID: 759588749}
+  <UfoSpawner>k__BackingField: {fileID: 759588748}
 --- !u!114 &2088563522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3465,8 +3734,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e237dd3dcf3a02246acfaee01200e357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Bullet>k__BackingField: {fileID: 2546274680469705691, guid: 476bd2e3b56fdb74691b7a7db63c14e4, type: 3}
-  <Lazer>k__BackingField: {fileID: 5364518919253420642, guid: 974bf1bf83f26e548afa54fa96d2e803, type: 3}
+  <BulletPool>k__BackingField: {fileID: 1819635037}
+  <LazerPool>k__BackingField: {fileID: 1023385069}
   <FirePoint>k__BackingField: {fileID: 224715493}
   <SpeedFire>k__BackingField: 50
   <BlLifetime>k__BackingField: 3
@@ -3531,6 +3800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d6f5314fca9ec4da4a5ae3fe76b557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _indent: 0.1
 --- !u!50 &2088563527
 Rigidbody2D:
   serializedVersion: 4
@@ -3558,6 +3828,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2088563528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088563516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63124f9575731cc47a7e17c580bedb34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <SpeedText>k__BackingField: {fileID: 1269258766}
+  <PositionText>k__BackingField: {fileID: 1357090876}
+  <RotationText>k__BackingField: {fileID: 68111077}
+  <PlayerMovement>k__BackingField: {fileID: 2088563520}
+  <GameOverScreen>k__BackingField: {fileID: 1910893777}
+  <GameScreen>k__BackingField: {fileID: 1411380475}
+  <RestartButton>k__BackingField: {fileID: 1880668923}
 --- !u!1 &2108290627
 GameObject:
   m_ObjectHideFlags: 0
@@ -3704,3 +3993,9 @@ SceneRoots:
   - {fileID: 1411380479}
   - {fileID: 1910893781}
   - {fileID: 2039307586}
+  - {fileID: 2025600471}
+  - {fileID: 903778427}
+  - {fileID: 984588607}
+  - {fileID: 1819635038}
+  - {fileID: 1023385070}
+  - {fileID: 193832198}

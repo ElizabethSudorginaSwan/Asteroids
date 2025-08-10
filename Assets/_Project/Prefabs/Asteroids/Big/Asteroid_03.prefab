@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8303725580239252710}
   - component: {fileID: 8662164678931317501}
   - component: {fileID: 2238448707860113856}
+  - component: {fileID: 1910449220701805959}
+  - component: {fileID: 3746141329641701512}
   m_Layer: 7
   m_Name: Asteroid_03
   m_TagString: Asteroid
@@ -98,13 +100,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b7830f005b7f445a41e2b52def7908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 5
-  <DirectionPoints>k__BackingField: []
+  <MoveForce>k__BackingField: 5
+  <MaxSpeed>k__BackingField: 3
+  <Drag>k__BackingField: 1
+  <RotationSpeed>k__BackingField: 2
   <SmallAsteroids>k__BackingField:
   - {fileID: 968193875401966019, guid: 59471970a3a5ad94e98632ea5ffa616b, type: 3}
   - {fileID: 7395613593544690364, guid: 004c5162d27b07b46ab6c611d7862422, type: 3}
   - {fileID: 3641151726534789435, guid: 4130d9770e6cc8e4983a98dac409a0c0, type: 3}
   - {fileID: 7623148182634177678, guid: 925b22c1271f1e545b6d24e65775041e, type: 3}
+  <CountScoreAsteroidLazer>k__BackingField: 10
+  <CountScoreAsteroidBullet>k__BackingField: 5
+  <MinSizeSmallAsteroid>k__BackingField: 1
+  <MaxSizeSmallAsteroid>k__BackingField: 1.3
+  <MinRotateSmallAsteroid>k__BackingField: 0
+  <MaxRotateSmallAsteroid>k__BackingField: 360
+  <ScoreValue>k__BackingField: 5
 --- !u!60 &2238448707860113856
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -199,3 +210,43 @@ PolygonCollider2D:
       - {x: 0.585, y: -0.655}
       - {x: -0.155, y: -0.655}
   m_UseDelaunayMesh: 0
+--- !u!50 &1910449220701805959
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641151726534789435}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.7
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &3746141329641701512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3641151726534789435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d6f5314fca9ec4da4a5ae3fe76b557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _indent: 0.1

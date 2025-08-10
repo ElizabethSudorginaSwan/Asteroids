@@ -1,74 +1,87 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using SpaceShooter.Player;
+using SpaceShooter.Factories;
+using SpaceShooter.ObjectPool;
 
-public class UFOSpawner : MonoBehaviour
+namespace SpaceShooter.UFOs
 {
-    [field: SerializeField] public GameObject Ufo { get; private set; }
-    [field: SerializeField] public Transform[] SpawnPoint { get; private set; }
-    [field: SerializeField] public float MinSize { get; private set; }
-    [field: SerializeField] public float MaxSize { get; private set; }
-    [field: SerializeField] public PlayerMovement PlayerMovement { get; private set; }
-    [field: SerializeField] public ScoreManager ScoreManager { get; private set; }
-
-    private int spawnIndex; 
-    private float randomSize; 
-
-    private GameObject createdUFO; 
-    private List<GameObject> ufoList = new List<GameObject>();
-
-    private void Start()
+    public class UFOSpawner : MonoBehaviour
     {
-        StartCoroutine(DelayedAction());
-    }
+        [field: SerializeField] public BasePool UfoPool {  get; set; }
+        [field: SerializeField] public Transform[] SpawnPoints { get; private set; }
+        [field: SerializeField] public float MinSizeUFO { get; private set; }
+        [field: SerializeField] public float MaxSizeUFO { get; private set; }
+        [field: SerializeField] public float SpawnInterval { get; private set; }
+        [field: SerializeField] public PlayerMovement PlayerMovement { get; private set; }
+        
+        private IEnemyFactory _ufoFactory;
+        private readonly List<GameObject> _spawnedUfos = new ();
+        private bool _isPaused = false;
 
-    private void Update()
-    {
-        if (PlayerMovement != null && !PlayerMovement.live)
+        private void Start()
         {
-            ClearAllUfo();
+            _ufoFactory = new UFOFactory(UfoPool, MinSizeUFO, MaxSizeUFO);
+            StartCoroutine(DelayedAction());
         }
-    }
 
-    private IEnumerator DelayedAction()
-    {
-        while (true)
+        private void Update()
         {
-            yield return new WaitForSeconds(6f);
-
-            spawnIndex = Random.Range(0, SpawnPoint.Length);
-            createdUFO = Instantiate(Ufo, SpawnPoint[spawnIndex].transform.position, Quaternion.identity);
-            ufoList.Add(createdUFO);
-
-            UFOEnemy ufoEnemy = createdUFO.GetComponent<UFOEnemy>();
-            if (ufoEnemy != null)
+            if (!PlayerMovement.Live)
             {
-                if (PlayerMovement != null)
+                ClearAllUfo();
+            }
+        }
+
+        private IEnumerator DelayedAction()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(SpawnInterval);
+
+                int spawnIndex = Random.Range(0, SpawnPoints.Length);
+                var spawnPoint = SpawnPoints[spawnIndex];
+
+                var ufo = _ufoFactory.CreateEnemy(spawnPoint.position, Quaternion.identity);
+                _ufoFactory.ConfigureEnemy(ufo, PlayerMovement.transform);
+
+                if (ufo.TryGetComponent(out UFOEnemy ufoScript))
                 {
-                    ufoEnemy.SetPlayer(PlayerMovement.transform);
+                    ufoScript.SetUfoPool(UfoPool);
                 }
-                if (ScoreManager != null)
+
+                _spawnedUfos.Add(ufo);
+            }
+        }
+
+        private void ClearAllUfo()
+        {
+            foreach (var ufo in _spawnedUfos)
+            {
+                if (ufo != null)
                 {
-                    ufoEnemy.SetScoreManager(ScoreManager);
+                    UfoPool.ReturnObject(ufo);
                 }
             }
 
-            randomSize = Random.Range(MinSize, MaxSize);
-            createdUFO.transform.localScale = new Vector2(randomSize, randomSize);
+            _spawnedUfos.Clear();
         }
-    }
 
-    private void ClearAllUfo()
-    {
-        foreach (var ufo in ufoList)
+        public void SetPause(bool paused)
         {
-            if (ufo != null) 
+            _isPaused = paused;
+ 
+            if (paused)
             {
-                Destroy(ufo); 
+                StopAllCoroutines();  
+            }
+            else
+            {
+                StartCoroutine(DelayedAction()); 
             }
         }
-        ufoList.Clear(); 
     }
 }
+
 

@@ -1,46 +1,20 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
-[RequireComponent(typeof(Shooter))]
-public class PlayerInput : MonoBehaviour
+namespace SpaceShooter.Player
 {
-    private PlayerMovement playerMovement;
-    private Shooter shooter;
-
-    private void Awake()
+    public class PlayerInput
     {
-        playerMovement = GetComponent<PlayerMovement>();
-        shooter = GetComponent<Shooter>();
-    }
+        [field: SerializeField] public float MoveInput { get; private set; }
+        [field: SerializeField] public int RotateInput { get; private set; }
+        [field: SerializeField] public bool ShootBulletPressed { get; private set; }
+        [field: SerializeField] public bool ShootLazerPressed { get; private set; }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) 
+        public void UpdateInput()
         {
-            playerMovement.Move();
+            MoveInput = Mathf.Clamp(Input.GetAxis("Vertical"), 0f, 1f);
+            RotateInput = -(int)Input.GetAxisRaw("Horizontal");
+            ShootBulletPressed = Input.GetMouseButtonDown(0);
+            ShootLazerPressed = Input.GetMouseButtonDown(1);
         }
-
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) 
-        {
-            playerMovement.Rotate(-1);
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) 
-        {
-            playerMovement.Rotate(1);
-        }
-        else
-        {
-            playerMovement.Rotate(0);
-        }
-
-        if (Input.GetMouseButtonDown(0)) 
-        {
-            shooter.ShootBullet();
-        }
-
-        if (Input.GetMouseButtonDown(1)) 
-        {
-            shooter.ShootLazer();
-        }    
     }
 }

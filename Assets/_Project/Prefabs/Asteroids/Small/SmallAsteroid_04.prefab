@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 330258364518052723}
   - component: {fileID: 7649437750497606136}
   - component: {fileID: 1502645756772416472}
+  - component: {fileID: 181406347272521968}
+  - component: {fileID: 1648133364427143747}
   m_Layer: 7
   m_Name: SmallAsteroid_04
   m_TagString: Asteroid
@@ -98,8 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a550450612bd9b04480dce06912a255a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 7
-  <DirectionPoints>k__BackingField: []
+  <InitialImpulseForce>k__BackingField: 3
+  <MoveForce>k__BackingField: 3
+  <MaxSpeed>k__BackingField: 5
+  <Drag>k__BackingField: 0.5
+  <RotationSpeed>k__BackingField: 5
+  <CountScoreSmallAsteroid>k__BackingField: 30
+  <ScoreValue>k__BackingField: 15
 --- !u!60 &1502645756772416472
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -222,3 +229,43 @@ PolygonCollider2D:
       - {x: 0.145, y: -0.94}
       - {x: -0.385, y: -0.94}
   m_UseDelaunayMesh: 0
+--- !u!50 &181406347272521968
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7623148182634177678}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.5
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &1648133364427143747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7623148182634177678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d6f5314fca9ec4da4a5ae3fe76b557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _indent: 0.1

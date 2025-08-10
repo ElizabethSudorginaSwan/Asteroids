@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1473084298614507397}
   - component: {fileID: 7132309994323441118}
   - component: {fileID: 2336436566267325750}
+  - component: {fileID: -2336952976003103427}
+  - component: {fileID: 8593021207373318127}
   m_Layer: 7
   m_Name: SmallAsteroid_02
   m_TagString: Asteroid
@@ -98,8 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a550450612bd9b04480dce06912a255a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 7
-  <DirectionPoints>k__BackingField: []
+  <InitialImpulseForce>k__BackingField: 3
+  <MoveForce>k__BackingField: 3
+  <MaxSpeed>k__BackingField: 5
+  <Drag>k__BackingField: 0.5
+  <RotationSpeed>k__BackingField: 5
+  <CountScoreSmallAsteroid>k__BackingField: 30
+  <ScoreValue>k__BackingField: 15
 --- !u!60 &2336436566267325750
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -260,3 +267,43 @@ PolygonCollider2D:
       - {x: -0.295, y: -0.55}
       - {x: -0.315, y: -0.55}
   m_UseDelaunayMesh: 0
+--- !u!50 &-2336952976003103427
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7395613593544690364}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.5
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &8593021207373318127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7395613593544690364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d6f5314fca9ec4da4a5ae3fe76b557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _indent: 0.1

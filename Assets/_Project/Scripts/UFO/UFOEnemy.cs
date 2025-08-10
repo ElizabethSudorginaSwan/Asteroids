@@ -1,35 +1,65 @@
 using UnityEngine;
+using SpaceShooter.Enemies;
+using SpaceShooter.ObjectPool;
 
-public class UFOEnemy : MonoBehaviour
+namespace SpaceShooter.UFOs
 {
-    [field: SerializeField] public float Speed { get; private set; } 
-
-    private Transform player; 
-
-    private ScoreManager scoreManager;
-
-    void Update()
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class UFOEnemy : MonoBehaviour, IDestructibleEnemy
     {
-        transform.position = Vector2.MoveTowards(transform.position, player.position, Speed * Time.deltaTime);
-    }
+        [field: SerializeField] public float MoveForce { get; private set; }
+        [field: SerializeField] public float MaxSpeed { get; private set; }
+        [field: SerializeField] public float Drag { get; private set; }
+        [field: SerializeField] public int ScoreValue { get; private set; }
 
-    public void SetPlayer(Transform playerTransform)
-    {
-        player = playerTransform;
-    }
+        private Transform _player;
+        private BasePool _ufoPool;
+        private Rigidbody2D _rb;
+        private Vector2 _moveDirection;
 
-    public void SetScoreManager(ScoreManager manager)
-    {
-        scoreManager = manager;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out Lazer _) || collision.TryGetComponent(out Bullet _)) 
+        private void Awake()
         {
-            Destroy(gameObject);
-            Destroy(collision.gameObject);
-            scoreManager.AddScore(20);
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.drag = Drag;
+        }
+
+        private void Update()
+        {
+            if (_player != null)
+            {
+                _moveDirection = (_player.position - transform.position).normalized;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (_player == null) return;
+        
+            if (_rb.velocity.magnitude < MaxSpeed)
+            {
+                _rb.AddForce(_moveDirection * MoveForce, ForceMode2D.Force);
+            }
+        }
+
+        public void SetUfoPool(BasePool ufoPool)
+        {
+            _ufoPool = ufoPool;
+        }
+        
+        public void SetPlayer(Transform playerTransform)
+        {
+            _player = playerTransform;
+        }
+
+        public void HandleBulletHit() 
+        { 
+            _ufoPool.ReturnObject(gameObject);
+        }
+
+        public void HandleLazerHit() 
+        {
+            _ufoPool.ReturnObject(gameObject);
         }
     }
 }
+

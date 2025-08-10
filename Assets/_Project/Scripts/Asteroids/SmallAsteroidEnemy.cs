@@ -1,75 +1,91 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using SpaceShooter.Player;
+using SpaceShooter.Enemies;
+using SpaceShooter.ObjectPool;
 
-public class SmallAsteroidEnemy : MonoBehaviour
+namespace SpaceShooter.Asteroids
 {
-    [field: SerializeField] public float Speed { get; private set; }
-    [field: SerializeField] public Transform[] DirectionPoints { get; private set; } 
-
-    private int pointIndex; 
-    private List<GameObject> smallAsteroidList = new List<GameObject>(); 
-
-    private PlayerMovement playerMovement; 
-    private ScoreManager scoreManager;
-
-
-    private void Update()
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class SmallAsteroidEnemy : MonoBehaviour, IDestructibleEnemy
     {
-        if (playerMovement != null && !playerMovement.live) 
+        [field: SerializeField] public float InitialImpulseForce { get; private set; } 
+        [field: SerializeField] public float MoveForce { get; private set; }
+        [field: SerializeField] public float MaxSpeed { get; private set; }
+        [field: SerializeField] public float Drag { get; private set; }
+        [field: SerializeField] public float RotationSpeed { get; private set; }
+        [field: SerializeField] public int CountScoreSmallAsteroid { get; private set; }
+        [field: SerializeField] public int ScoreValue { get; private set; }
+
+        private BasePool _smallAsteroidPool;
+        private List<GameObject> _parentList;
+        private PlayerMovement _playerMovement;
+        private Rigidbody2D _rb;
+        private Vector2 _randomDirection;
+
+        private void Awake()
         {
-            ClearAllSmallAsteroids();
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.drag = Drag;
         }
-       
-        transform.position = Vector2.MoveTowards(transform.position, DirectionPoints[pointIndex].position, Speed * Time.deltaTime);
 
-        if (Vector2.Distance(transform.position, DirectionPoints[pointIndex].position) < 0.2f)
+        private void Start()
         {
-            pointIndex = Random.Range(0, DirectionPoints.Length);
+            _randomDirection = Random.insideUnitCircle.normalized;
+            _rb.AddForce(_randomDirection * InitialImpulseForce, ForceMode2D.Impulse);
         }
-    }
 
-    public void SetPlayer(PlayerMovement player)
-    {
-        playerMovement = player;
-    }
-
-    public void SetScoreManager(ScoreManager manager)
-    {
-        scoreManager = manager;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out Lazer _) || collision.TryGetComponent(out Bullet _))
+        private void Update()
         {
-            Destroy(gameObject); 
-            Destroy(collision.gameObject); 
-
-            scoreManager.AddScore(30); 
-        }
-    }
-
-    private void ClearAllSmallAsteroids()
-    {
-        foreach (var smallAsteroid in smallAsteroidList)
-        {
-            if (smallAsteroid != null) 
+            if (!_playerMovement.Live)
             {
-                Destroy(smallAsteroid); 
+                HandleDestruction();
             }
         }
-        smallAsteroidList.Clear(); 
-    }
 
-    public void AddToAsteroidList(GameObject asteroid)
-    {
-        smallAsteroidList.Add(asteroid);
-    }
+        private void FixedUpdate()
+        {
+            if (_rb.velocity.magnitude < MaxSpeed)
+            {
+                _rb.AddForce(_randomDirection * MoveForce, ForceMode2D.Force);
+            }
+        }
 
-    public void SetWaypoints(Transform[] points)
-    {
-        DirectionPoints = points;
-        pointIndex = Random.Range(0, DirectionPoints.Length);
+        public void SetSmallAsteroidPool(BasePool smallAsteroidPool)
+        {
+            _smallAsteroidPool = smallAsteroidPool;
+        }
+
+        public void SetPlayer(PlayerMovement player)
+        {
+            _playerMovement = player;
+        }
+
+        public void SetParentList(List<GameObject> parentList)
+        {
+            _parentList = parentList;
+        }
+
+        public void HandleBulletHit() 
+        {
+            HandleDestruction();
+        }
+
+        public void HandleLazerHit() 
+        {
+            HandleDestruction();
+        }
+
+        private void HandleDestruction()
+        {
+            if (_parentList != null && _parentList.Contains(gameObject))
+            {
+                _parentList.Remove(gameObject);
+            }
+
+            _smallAsteroidPool.ReturnObject(gameObject);
+        }
     }
-}
+}   
+
+
