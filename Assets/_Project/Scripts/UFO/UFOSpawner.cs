@@ -43,8 +43,7 @@ namespace SpaceShooter.UFOs
                 int spawnIndex = Random.Range(0, SpawnPoints.Length);
                 var spawnPoint = SpawnPoints[spawnIndex];
 
-                var ufo = _ufoFactory.CreateEnemy(spawnPoint.position, Quaternion.identity);
-                _ufoFactory.ConfigureEnemy(ufo, PlayerMovement.transform);
+                var ufo = _ufoFactory.CreateEnemy(spawnPoint.position, Quaternion.identity, PlayerMovement.transform);
 
                 if (ufo.TryGetComponent(out UFOEnemy ufoScript))
                 {

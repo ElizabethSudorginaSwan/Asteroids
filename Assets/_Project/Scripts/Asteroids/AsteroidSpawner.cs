@@ -21,11 +21,10 @@ namespace SpaceShooter.Asteroids
 
         private IEnemyFactory _asteroidFactory;
         private readonly List<GameObject> _asteroidList = new();
-        private bool _isPaused = false;
 
         private void Start()
         {
-            _asteroidFactory = new AsteroidFactory(AsteroidPool, MinSizeAsteroid, MaxSizeAsteroid, MinRotateAsteroid, MaxRotateAsteroid)/*, SpawnPoints)*/;
+            _asteroidFactory = new AsteroidFactory(AsteroidPool, MinSizeAsteroid, MaxSizeAsteroid, MinRotateAsteroid, MaxRotateAsteroid);
 
             StartCoroutine(DelayedAction());
         }
@@ -47,8 +46,7 @@ namespace SpaceShooter.Asteroids
                 int spawnIndex = Random.Range(0, SpawnPoints.Length);
                 var spawnPoint = SpawnPoints[spawnIndex];
 
-                var asteroid = _asteroidFactory.CreateEnemy(spawnPoint.position, Quaternion.identity);
-                _asteroidFactory.ConfigureEnemy(asteroid, PlayerMovement.transform);
+                var asteroid = _asteroidFactory.CreateEnemy(spawnPoint.position, Quaternion.identity, PlayerMovement.transform);
 
                 if (asteroid.TryGetComponent(out AsteroidsEnemy asteroidScript))
                 {
@@ -62,7 +60,6 @@ namespace SpaceShooter.Asteroids
 
         public void SetPause(bool paused)
         {
-            _isPaused = paused;
 
             if (paused)
             {

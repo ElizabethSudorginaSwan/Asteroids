@@ -10,7 +10,7 @@ namespace SpaceShooter.ObjectPool
 
         protected Queue<GameObject> _objectPool = new();
 
-        protected virtual void Awake() => InitializePool();
+        protected void Awake() => InitializePool();
 
         protected virtual void InitializePool()
         {
@@ -22,7 +22,7 @@ namespace SpaceShooter.ObjectPool
             }
         }
 
-        protected virtual GameObject CreateNewObject()
+        protected GameObject CreateNewObject()
         {
             if (_prefabs.Length > 1)
             {
@@ -33,7 +33,7 @@ namespace SpaceShooter.ObjectPool
             return Instantiate(_prefabs[0], transform);
         }
 
-        public virtual GameObject GetObject(Vector3 position, Quaternion rotation)
+        public GameObject GetObject(Vector3 position, Quaternion rotation)
         {
             GameObject obj = _objectPool.Count > 0 ? _objectPool.Dequeue() : CreateNewObject();
 
@@ -43,7 +43,7 @@ namespace SpaceShooter.ObjectPool
             return obj;
         }
 
-        public virtual void ReturnObject(GameObject obj)
+        public void ReturnObject(GameObject obj)
         {
             obj.SetActive(false);
             _objectPool.Enqueue(obj);

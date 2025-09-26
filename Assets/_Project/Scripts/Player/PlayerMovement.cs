@@ -2,6 +2,7 @@ using UnityEngine;
 using SpaceShooter.Asteroids;
 using SpaceShooter.UFOs;
 using SpaceShooter.Enemies;
+using SpaceShooter.Pause;
 
 namespace SpaceShooter.Player
 {
@@ -14,8 +15,7 @@ namespace SpaceShooter.Player
         [field: SerializeField] public float Drag { get; private set; } 
         [field: SerializeField] public float RotationSpeed { get; private set; } 
         [field: SerializeField] public bool Live { get; private set; }
-        [field: SerializeField] public AsteroidSpawner AsteroidSpawner { get; private set; }
-        [field: SerializeField] public UFOSpawner UfoSpawner { get; private set; }
+        [field: SerializeField] public PauseGame PauseGame { get; private set; }
 
         private Rigidbody2D _rb;
         private bool _shouldMoveForward;
@@ -23,7 +23,6 @@ namespace SpaceShooter.Player
         private Shooter _shooter;
         private PlayerInput _playerInput;
         private PlayerUI _playerUI;
-        private bool _isPaused = false; 
 
         private void Awake()
         {
@@ -43,7 +42,7 @@ namespace SpaceShooter.Player
 
         private void Update()
         {
-            if (_isPaused) return;
+            if (PauseGame.IsPaused()) return;
 
             _playerInput.UpdateInput();
 
@@ -67,7 +66,7 @@ namespace SpaceShooter.Player
 
         private void FixedUpdate()
         {
-            if (_isPaused) return;
+            if (PauseGame.IsPaused()) return;
 
             if (_shouldMoveForward)
             {
@@ -104,15 +103,6 @@ namespace SpaceShooter.Player
             Live = newLiveState;
         }
 
-        public void SetPause(bool paused)
-        {
-            _isPaused = paused;
-            _rb.simulated = !paused;
-
-            AsteroidSpawner.SetPause(paused);
-            UfoSpawner.SetPause(paused);
-        }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent<IDestructibleEnemy>(out _))
@@ -120,7 +110,7 @@ namespace SpaceShooter.Player
                 ResetPlayer();
                 _playerUI.UpdateUI();
                 SetLive(false);
-                SetPause(true);
+                PauseGame.SetPause(true);
                 _playerUI.ShowGameOver();
             }
         }
@@ -131,7 +121,5 @@ namespace SpaceShooter.Player
             _rb.angularVelocity = 0f;
             transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
-
-        
     }
 }

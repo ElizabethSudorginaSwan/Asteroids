@@ -1,3 +1,6 @@
+using SpaceShooter.Events;
+using SpaceShooter.ObjectPool;
+using SpaceShooter.Pause;
 using SpaceShooter.Score;
 using TMPro;
 using UnityEngine;
@@ -14,6 +17,7 @@ namespace SpaceShooter.Player
         [field: SerializeField] public GameObject GameOverScreen { get; private set; }
         [field: SerializeField] public GameObject GameScreen { get; private set; }
         [field: SerializeField] public Button RestartButton { get; private set; }
+        [field: SerializeField] public PauseGame PauseGame { get; private set; }
 
         private ScoreManager _scoreManager;
         private Rigidbody2D _rb;
@@ -27,6 +31,7 @@ namespace SpaceShooter.Player
         {
             _scoreManager = scoreManager;
         }
+
 
         public void SetRbPlayer(Rigidbody2D playerRb)
         {
@@ -60,7 +65,7 @@ namespace SpaceShooter.Player
         
         private void RestartGame()
         {
-            PlayerMovement.SetPause(false);
+            PauseGame.SetPause(false);
             HideGameOver();
             _scoreManager.ResetScore();
             PlayerMovement.SetLive(true);

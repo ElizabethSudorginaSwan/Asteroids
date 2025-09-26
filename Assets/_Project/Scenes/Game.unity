@@ -476,10 +476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53d664b8b1aa8c544b60213ebb506812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <LazerPool>k__BackingField: {fileID: 1023385069}
   <BulletPool>k__BackingField: {fileID: 1819635037}
-  <ScoreManagerUI>k__BackingField: {fileID: 145005906}
-  <PlayerUI>k__BackingField: {fileID: 2088563528}
+  <LazerPool>k__BackingField: {fileID: 1023385069}
 --- !u!4 &193832198
 Transform:
   m_ObjectHideFlags: 0
@@ -1164,6 +1162,52 @@ RectTransform:
   m_AnchoredPosition: {x: 149, y: 480}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &689502650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 689502652}
+  - component: {fileID: 689502651}
+  m_Layer: 0
+  m_Name: UIEventManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &689502651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689502650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ece960adf93b54ca958351e3d2ebb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <PlayerUI>k__BackingField: {fileID: 2088563528}
+  <ScoreUI>k__BackingField: {fileID: 145005906}
+--- !u!4 &689502652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689502650}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.808618, y: 12.232631, z: -0.58068246}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &759588745
 GameObject:
   m_ObjectHideFlags: 0
@@ -1741,6 +1785,52 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 839.417, y: 474.4984, z: -12.000262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &904462277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 904462279}
+  - component: {fileID: 904462278}
+  m_Layer: 0
+  m_Name: PauseGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &904462278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904462277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ccdf737c20967448371b93fc4cc4a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AsteroidSpawner>k__BackingField: {fileID: 759588749}
+  <UfoSpawner>k__BackingField: {fileID: 759588748}
+--- !u!4 &904462279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904462277}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.533967, y: 7.4657764, z: -0.5245853}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3720,8 +3810,7 @@ MonoBehaviour:
   <Drag>k__BackingField: 2
   <RotationSpeed>k__BackingField: 120
   <Live>k__BackingField: 0
-  <AsteroidSpawner>k__BackingField: {fileID: 759588749}
-  <UfoSpawner>k__BackingField: {fileID: 759588748}
+  <PauseGame>k__BackingField: {fileID: 904462278}
 --- !u!114 &2088563522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3847,6 +3936,7 @@ MonoBehaviour:
   <GameOverScreen>k__BackingField: {fileID: 1910893777}
   <GameScreen>k__BackingField: {fileID: 1411380475}
   <RestartButton>k__BackingField: {fileID: 1880668923}
+  <PauseGame>k__BackingField: {fileID: 904462278}
 --- !u!1 &2108290627
 GameObject:
   m_ObjectHideFlags: 0
@@ -3999,3 +4089,5 @@ SceneRoots:
   - {fileID: 1819635038}
   - {fileID: 1023385070}
   - {fileID: 193832198}
+  - {fileID: 689502652}
+  - {fileID: 904462279}

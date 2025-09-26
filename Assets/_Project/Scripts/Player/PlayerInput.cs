@@ -4,10 +4,10 @@ namespace SpaceShooter.Player
 {
     public class PlayerInput
     {
-        [field: SerializeField] public float MoveInput { get; private set; }
-        [field: SerializeField] public int RotateInput { get; private set; }
-        [field: SerializeField] public bool ShootBulletPressed { get; private set; }
-        [field: SerializeField] public bool ShootLazerPressed { get; private set; }
+        public float MoveInput { get; private set; }
+        public int RotateInput { get; private set; }
+        public bool ShootBulletPressed { get; private set; }
+        public bool ShootLazerPressed { get; private set; }
 
         public void UpdateInput()
         {

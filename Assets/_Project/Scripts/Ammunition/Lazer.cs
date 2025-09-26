@@ -1,6 +1,7 @@
 using SpaceShooter.Enemies;
 using SpaceShooter.Events;
 using SpaceShooter.ObjectPool;
+using SpaceShooter.Score;
 using UnityEngine;
 
 namespace SpaceShooter.Ammunition
@@ -8,12 +9,12 @@ namespace SpaceShooter.Ammunition
     public class Lazer : MonoBehaviour 
     {
         private BasePool _pool;
-        private IGameEventPublisher _eventPublisher;
+        private ScoreManager _scoreManager;
 
-        public void Initialize(BasePool pool, IGameEventPublisher eventPublisher)
+        public void Initialize(BasePool pool, ScoreManager scoreManager)
         {
             _pool = pool;
-            _eventPublisher = eventPublisher;
+            _scoreManager = scoreManager;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -22,7 +23,7 @@ namespace SpaceShooter.Ammunition
             {
                 enemy.HandleLazerHit();
                 _pool.ReturnObject(gameObject);
-                _eventPublisher.PublishEnemyDestroyed(enemy.ScoreValue);
+                _scoreManager.HitEnemy(enemy.ScoreValue);
             }
         }
     }

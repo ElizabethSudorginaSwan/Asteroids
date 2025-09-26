@@ -77,8 +77,7 @@ namespace SpaceShooter.Asteroids
         {
             for (int i = 0; i < 2; i++)
             {
-                var smallAsteroid = _smallAsteroidFactory.CreateEnemy(transform.position, Quaternion.identity);
-                _smallAsteroidFactory.ConfigureEnemy(smallAsteroid, _playerMovement.transform);
+                var smallAsteroid = _smallAsteroidFactory.CreateEnemy(transform.position, Quaternion.identity, _playerMovement.transform);
 
                 if (smallAsteroid.TryGetComponent(out SmallAsteroidEnemy smallEnemy))
                 {

@@ -1,3 +1,5 @@
+using System;
+using System.Data;
 using SpaceShooter.ObjectPool;
 using SpaceShooter.Player;
 using SpaceShooter.Score;
@@ -7,28 +9,39 @@ namespace SpaceShooter.Events
 {
     public class ScoreEventManager : MonoBehaviour
     {
-        [field: SerializeField] public LazerPool LazerPool {  get; set; }
-        [field: SerializeField] public BulletPool BulletPool {  get; set; }
-        [field: SerializeField] public ScoreManagerUI ScoreManagerUI {  get; set; }
-        [field: SerializeField] public PlayerUI PlayerUI {  get; set; }
+        public delegate void ScoreManagerCreatedHandler(ScoreManager scoreManager);
+        public static event ScoreManagerCreatedHandler OnScoreManagerCreated;
 
-        private IGameEventPublisher _eventPublisher;
+        [field: SerializeField] public BulletPool BulletPool { get; set; }
+        [field: SerializeField] public LazerPool LazerPool { get; set; }
+        
         private ScoreManager _scoreManager;
+        private bool _isInitialized = false;
 
         private void Awake()
         {
-            _eventPublisher = new GameEventPublisher();
-            _scoreManager = new ScoreManager(_eventPublisher);
-
-            PlayerUI.Initialize(_scoreManager);
-            LazerPool.Initialize(_eventPublisher);
-            BulletPool.Initialize(_eventPublisher);
-            ScoreManagerUI.Initialize(_scoreManager);
+            _scoreManager = new ScoreManager();
         }
 
-        private void OnDestroy()
+        private void Start()
         {
-            _scoreManager.Dispose();
+            if (_isInitialized) 
+            { 
+                return; 
+            } 
+
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            if (_isInitialized) return;
+
+            BulletPool.Initialize(_scoreManager);
+            LazerPool.Initialize(_scoreManager);
+
+            OnScoreManagerCreated?.Invoke(_scoreManager);
+            _isInitialized = true;
         }
     }
 }

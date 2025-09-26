@@ -23,7 +23,7 @@ namespace SpaceShooter.Factories
             _maxRotation = maxRotation;
         }
 
-        public GameObject CreateEnemy(Vector3 position, Quaternion rotation)
+        public GameObject CreateEnemy(Vector3 position, Quaternion rotation, Transform playerTransform)
         {
             GameObject asteroid = AsteroidPool.GetObject(position, rotation);
 
@@ -33,15 +33,12 @@ namespace SpaceShooter.Factories
             float randomRotation = Random.Range(_minRotation, _maxRotation);
             asteroid.transform.rotation = Quaternion.Euler(0f, 0f, randomRotation);
 
-            return asteroid;
-        }
-
-        public void ConfigureEnemy(GameObject enemy, Transform playerTransform)
-        {
-            if (enemy.TryGetComponent(out AsteroidsEnemy asteroidsEnemy))
+            if (asteroid.TryGetComponent(out AsteroidsEnemy asteroidsEnemy))
             {
                 asteroidsEnemy.SetPlayer(playerTransform.GetComponent<PlayerMovement>());
             }
+
+            return asteroid;
         }
     }
 }

@@ -18,22 +18,19 @@ namespace SpaceShooter.Factories
             _maxSize = maxSize;
         }
         
-        public GameObject CreateEnemy(Vector3 position, Quaternion rotation)
+        public GameObject CreateEnemy(Vector3 position, Quaternion rotation, Transform playerTransform)
         {
             GameObject ufo = UfoPool.GetObject(position, rotation);
 
             float randomSize = Random.Range(_minSize, _maxSize);
             ufo.transform.localScale = new Vector3(randomSize, randomSize, 1f);
 
-            return ufo;
-        }
-        
-        public void ConfigureEnemy(GameObject enemy, Transform playerTransform)
-        {
-            if (enemy.TryGetComponent(out UFOEnemy ufoEnemy))
+            if (ufo.TryGetComponent(out UFOEnemy ufoEnemy))
             {
                 ufoEnemy.SetPlayer(playerTransform);
             }
+
+            return ufo;
         }
     }
 }

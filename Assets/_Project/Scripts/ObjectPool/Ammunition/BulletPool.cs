@@ -1,16 +1,17 @@
 using SpaceShooter.Ammunition;
 using SpaceShooter.Events;
+using SpaceShooter.Score;
 using UnityEngine;
 
 namespace SpaceShooter.ObjectPool
 {
     public class BulletPool : BasePool
     {
-        [field: SerializeField] public IGameEventPublisher EventPublisher { get; set; }
+        [field: SerializeField] public ScoreManager ScoreManager {  get; set; }
 
-        public void Initialize(IGameEventPublisher eventPublisher)
+        public void Initialize(ScoreManager scoreManager)
         {
-            EventPublisher = eventPublisher;
+            ScoreManager = scoreManager;
             InitializePool();
         }
 
@@ -21,7 +22,7 @@ namespace SpaceShooter.ObjectPool
             {
                 if (bullet.TryGetComponent(out Bullet bulletComponent))
                 {
-                    bulletComponent.Initialize(this, EventPublisher);
+                    bulletComponent.Initialize(this, ScoreManager);
                 }
             }
         }
