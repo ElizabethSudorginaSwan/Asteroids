@@ -447,52 +447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <FinalScoreText>k__BackingField: {fileID: 894992186}
---- !u!1 &193832196
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 193832198}
-  - component: {fileID: 193832197}
-  m_Layer: 0
-  m_Name: ScoreEventManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &193832197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 193832196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53d664b8b1aa8c544b60213ebb506812, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <BulletPool>k__BackingField: {fileID: 1819635037}
-  <LazerPool>k__BackingField: {fileID: 1023385069}
---- !u!4 &193832198
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 193832196}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.079684, y: 7.4296746, z: -0.49768934}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &224715492
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,7 +1116,7 @@ RectTransform:
   m_AnchoredPosition: {x: 149, y: 480}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &689502650
+--- !u!1 &619240576
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1170,36 +1124,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 689502652}
-  - component: {fileID: 689502651}
+  - component: {fileID: 619240578}
+  - component: {fileID: 619240577}
   m_Layer: 0
-  m_Name: UIEventManager
+  m_Name: GameInitializer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &689502651
+--- !u!114 &619240577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 689502650}
+  m_GameObject: {fileID: 619240576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69ece960adf93b54ca958351e3d2ebb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b340274758346d47b25be623b51d8ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <BulletPool>k__BackingField: {fileID: 1819635037}
+  <LazerPool>k__BackingField: {fileID: 1023385069}
   <PlayerUI>k__BackingField: {fileID: 2088563528}
   <ScoreUI>k__BackingField: {fileID: 145005906}
---- !u!4 &689502652
+--- !u!4 &619240578
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 689502650}
+  m_GameObject: {fileID: 619240576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.808618, y: 12.232631, z: -0.58068246}
@@ -3713,10 +3669,10 @@ GameObject:
   - component: {fileID: 2088563519}
   - component: {fileID: 2088563518}
   - component: {fileID: 2088563525}
+  - component: {fileID: 2088563527}
   - component: {fileID: 2088563520}
   - component: {fileID: 2088563522}
   - component: {fileID: 2088563526}
-  - component: {fileID: 2088563527}
   - component: {fileID: 2088563528}
   m_Layer: 3
   m_Name: Player
@@ -4088,6 +4044,5 @@ SceneRoots:
   - {fileID: 984588607}
   - {fileID: 1819635038}
   - {fileID: 1023385070}
-  - {fileID: 193832198}
-  - {fileID: 689502652}
   - {fileID: 904462279}
+  - {fileID: 619240578}

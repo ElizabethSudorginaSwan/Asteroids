@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using SpaceShooter.Events;
 
 namespace SpaceShooter.Score
 {

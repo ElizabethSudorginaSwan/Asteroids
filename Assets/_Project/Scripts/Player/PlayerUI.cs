@@ -1,4 +1,3 @@
-using SpaceShooter.Events;
 using SpaceShooter.ObjectPool;
 using SpaceShooter.Pause;
 using SpaceShooter.Score;

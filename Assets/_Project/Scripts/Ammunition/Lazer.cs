@@ -1,5 +1,4 @@
 using SpaceShooter.Enemies;
-using SpaceShooter.Events;
 using SpaceShooter.ObjectPool;
 using SpaceShooter.Score;
 using UnityEngine;

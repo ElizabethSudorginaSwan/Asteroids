@@ -1,5 +1,4 @@
 using SpaceShooter.Enemies;
-using SpaceShooter.Events;
 using SpaceShooter.ObjectPool;
 using SpaceShooter.Score;
 using UnityEngine;
@@ -23,7 +22,7 @@ namespace SpaceShooter.Ammunition
             {
                 enemy.HandleBulletHit();
                 _pool.ReturnObject(gameObject);
-                _scoreManager.HitEnemy(enemy.ScoreValue);;
+                _scoreManager.HitEnemy(enemy.ScoreValue);
             }
         }
     }

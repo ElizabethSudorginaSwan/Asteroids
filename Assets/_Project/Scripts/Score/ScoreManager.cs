@@ -1,5 +1,4 @@
 using System;
-using SpaceShooter.Events;
 using UnityEngine;
 
 namespace SpaceShooter.Score
