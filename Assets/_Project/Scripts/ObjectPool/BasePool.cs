@@ -10,8 +10,6 @@ namespace SpaceShooter.ObjectPool
 
         protected Queue<GameObject> _objectPool = new();
 
-        protected void Awake() => InitializePool();
-
         protected virtual void InitializePool()
         {
             for (int i = 0; i < _initialPoolSize; i++)

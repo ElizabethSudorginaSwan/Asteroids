@@ -30,19 +30,17 @@ namespace SpaceShooter.Player
         private GenericAmmunitionFactory _bulletFactory;
         private GenericAmmunitionFactory _lazerFactory;
 
-        private void Start()
+        public void Initialize(PlayerMovement playerMovement)
         {
-            _playerMovement = GetComponent<PlayerMovement>();
+            _playerMovement = playerMovement;
 
             _bulletFactory = new GenericAmmunitionFactory(BulletPool, SpeedFire, FirePoint);
             _lazerFactory = new GenericAmmunitionFactory(LazerPool, SpeedFire, FirePoint);
 
             _currentLazerShots = MazLazerShots;
-
             UpdateLazerShots();
             UpdateRecharge();
         }
-
         private void Update()
         {
             if (!_playerMovement.Live)

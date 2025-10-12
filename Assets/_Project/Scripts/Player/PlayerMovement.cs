@@ -15,7 +15,6 @@ namespace SpaceShooter.Player
         [field: SerializeField] public float Drag { get; private set; } 
         [field: SerializeField] public float RotationSpeed { get; private set; } 
         [field: SerializeField] public bool Live { get; private set; }
-        [field: SerializeField] public PauseGame PauseGame { get; private set; }
 
         private Rigidbody2D _rb;
         private bool _shouldMoveForward;
@@ -23,28 +22,25 @@ namespace SpaceShooter.Player
         private Shooter _shooter;
         private PlayerInput _playerInput;
         private PlayerUI _playerUI;
+        private PauseGame _pauseGame; 
 
-        private void Awake()
+        public void Initialize(PlayerInput playerInput, PlayerUI playerUI, PauseGame pauseGame)
         {
-            _playerInput = new PlayerInput();
+            _playerInput = playerInput;
+            _playerUI = playerUI;
+            _pauseGame = pauseGame;
+
             _shooter = GetComponent<Shooter>();
-            _playerUI = GetComponent<PlayerUI>();
             _rb = GetComponent<Rigidbody2D>();
             _rb.drag = Drag;
 
-            if (TryGetComponent(out _playerUI))
-            {
-                _playerUI.SetRbPlayer(_rb);
-            }
-
+            _playerUI.SetRbPlayer(_rb);
             SetLive(true);
         }
 
         private void Update()
         {
-            if (PauseGame.IsPaused()) return;
-
-            _playerInput.UpdateInput();
+            if (_pauseGame.IsPaused() || !Live) return; 
 
             if (_playerInput.MoveInput > 0)
             {
@@ -66,7 +62,7 @@ namespace SpaceShooter.Player
 
         private void FixedUpdate()
         {
-            if (PauseGame.IsPaused()) return;
+            if (_pauseGame.IsPaused()) return; 
 
             if (_shouldMoveForward)
             {
@@ -110,7 +106,7 @@ namespace SpaceShooter.Player
                 ResetPlayer();
                 _playerUI.UpdateUI();
                 SetLive(false);
-                PauseGame.SetPause(true);
+                _pauseGame.SetPause(true); 
                 _playerUI.ShowGameOver();
             }
         }

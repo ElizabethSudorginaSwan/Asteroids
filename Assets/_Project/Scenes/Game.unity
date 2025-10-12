@@ -1149,6 +1149,9 @@ MonoBehaviour:
   <LazerPool>k__BackingField: {fileID: 1023385069}
   <PlayerUI>k__BackingField: {fileID: 2088563528}
   <ScoreUI>k__BackingField: {fileID: 145005906}
+  <PlayerMovement>k__BackingField: {fileID: 2088563520}
+  <PauseGame>k__BackingField: {fileID: 904462278}
+  <Shooter>k__BackingField: {fileID: 2088563522}
 --- !u!4 &619240578
 Transform:
   m_ObjectHideFlags: 0
@@ -3766,7 +3769,6 @@ MonoBehaviour:
   <Drag>k__BackingField: 2
   <RotationSpeed>k__BackingField: 120
   <Live>k__BackingField: 0
-  <PauseGame>k__BackingField: {fileID: 904462278}
 --- !u!114 &2088563522
 MonoBehaviour:
   m_ObjectHideFlags: 0
