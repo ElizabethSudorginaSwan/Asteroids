@@ -6,11 +6,13 @@ namespace SpaceShooter.ObjectPool
 {
     public class BulletPool : BasePool
     {
-        [field: SerializeField] public ScoreManager ScoreManager {  get; set; }
+        private ScoreManager _scoreManager;
 
-        public void Initialize(ScoreManager scoreManager)
+        public void Initialize(GameObject[] prefabs, int poolSize, ScoreManager scoreManager, Transform parent = null)
         {
-            ScoreManager = scoreManager;
+            _scoreManager = scoreManager;
+
+            base.Initialize(prefabs, poolSize, parent);
             InitializePool();
         }
 
@@ -21,7 +23,7 @@ namespace SpaceShooter.ObjectPool
             {
                 if (bullet.TryGetComponent(out Bullet bulletComponent))
                 {
-                    bulletComponent.Initialize(this, ScoreManager);
+                    bulletComponent.Initialize(this, _scoreManager);
                 }
             }
         }

@@ -4,70 +4,51 @@ using UnityEngine;
 using SpaceShooter.Player;
 using SpaceShooter.Factories;
 using SpaceShooter.ObjectPool;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using SpaceShooter.UFOs;
 
 namespace SpaceShooter.Asteroids
 {
-    public class AsteroidSpawner : MonoBehaviour
+    public class AsteroidSpawner
     {
-        [field: SerializeField] public BasePool AsteroidPool {  get; set; }
-        [field: SerializeField] public BasePool SmallAsteroidPool { get; set; }
-        [field: SerializeField] public Transform[] SpawnPoints { get; private set; }
-        [field: SerializeField] public float MinSizeAsteroid { get; private set; }
-        [field: SerializeField] public float MaxSizeAsteroid { get; private set; }
-        [field: SerializeField] public float MinRotateAsteroid { get; private set; }
-        [field: SerializeField] public float MaxRotateAsteroid { get; private set; }
-        [field: SerializeField] public float SpawnInterval { get; private set; }
-        [field: SerializeField] public PlayerMovement PlayerMovement { get; private set; }
+        private float _minSizeAsteroid;
+        private float _maxSizeAsteroid;
+        private float _minRotateAsteroid;
+        private float _maxRotateAsteroid;
+        private float _spawnIntervalAsteroid;
 
         private IEnemyFactory _asteroidFactory;
+
+        private BasePool _asteroidPool;
+        private BasePool _smallAsteroidPool;
+        private Transform[] _spawnPoints;
+        private PlayerMovement _playerMovement;
+        private CancellationTokenSource _spawnCts;
         private readonly List<GameObject> _asteroidList = new();
 
-        private void Start()
+        public void Initialize(BasePool asteroidPool, BasePool smallAsteroidPool, Transform[] spawnPoints, 
+                               float minSizeAsteroid, float maxSizeAsteroid, float minRotateAsteroid, 
+                               float maxRotateSateroid, float spawnIntervalAsteroid, PlayerMovement playerMovement)
         {
-            _asteroidFactory = new AsteroidFactory(AsteroidPool, MinSizeAsteroid, MaxSizeAsteroid, MinRotateAsteroid, MaxRotateAsteroid);
+            _asteroidPool = asteroidPool;
+            _smallAsteroidPool = smallAsteroidPool;
+            _spawnPoints = spawnPoints;
+            _minSizeAsteroid = minSizeAsteroid;
+            _maxSizeAsteroid = maxSizeAsteroid;
+            _minRotateAsteroid = minRotateAsteroid;
+            _maxRotateAsteroid = maxRotateSateroid;
+            _spawnIntervalAsteroid = spawnIntervalAsteroid;
+            _playerMovement = playerMovement;
 
-            StartCoroutine(DelayedAction());
+            _asteroidFactory = new AsteroidFactory(_asteroidPool, _minSizeAsteroid, _maxSizeAsteroid, _minRotateAsteroid, _maxRotateAsteroid);
         }
 
-        private void Update()
+        public void UpdateAsteroidSpawner()
         {
-            if (!PlayerMovement.Live)
+            if (!_playerMovement.Live)
             {
                 ClearAllAsteroids();
-            }
-        }
-
-        private IEnumerator DelayedAction()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(SpawnInterval);
-
-                int spawnIndex = Random.Range(0, SpawnPoints.Length);
-                var spawnPoint = SpawnPoints[spawnIndex];
-
-                var asteroid = _asteroidFactory.CreateEnemy(spawnPoint.position, Quaternion.identity, PlayerMovement.transform);
-
-                if (asteroid.TryGetComponent(out AsteroidsEnemy asteroidScript))
-                {
-                    asteroidScript.SetSmallAsteroidPool(SmallAsteroidPool);
-                    asteroidScript.SetAsteroidPool(AsteroidPool);
-                }
-
-                _asteroidList.Add(asteroid);
-            }
-        }
-
-        public void SetPause(bool paused)
-        {
-
-            if (paused)
-            {
-                StopAllCoroutines();
-            }
-            else
-            {
-                StartCoroutine(DelayedAction());
             }
         }
 
@@ -77,10 +58,43 @@ namespace SpaceShooter.Asteroids
             {
                 if (asteroid != null)
                 {
-                    AsteroidPool.ReturnObject(asteroid);
+                    _asteroidPool.ReturnObject(asteroid);
                 }
             }
             _asteroidList.Clear();
+        }
+
+        public async UniTask StartSpawning()
+        {
+            _spawnCts = new CancellationTokenSource();
+
+            while (!_spawnCts.Token.IsCancellationRequested)
+            {
+                await UniTask.Delay((int)(_spawnIntervalAsteroid * 1000), cancellationToken: _spawnCts.Token);
+
+                if (!_playerMovement.Live)
+                {
+                    continue; 
+                }
+
+                SpawnAsteroid();
+            }
+        }
+
+        private void SpawnAsteroid()
+        {
+            int spawnIndex = UnityEngine.Random.Range(0, _spawnPoints.Length);
+            var spawnPoint = _spawnPoints[spawnIndex];
+
+            var asteroid = _asteroidFactory.CreateEnemy(spawnPoint.position, Quaternion.identity, _playerMovement.transform);
+
+            if (asteroid.TryGetComponent(out AsteroidsEnemy asteroidScript))
+            {
+                asteroidScript.SetAsteroidPool(_asteroidPool);
+                asteroidScript.SetSmallAsteroidPool(_smallAsteroidPool);
+            }
+
+            _asteroidList.Add(asteroid);
         }
     }
 }

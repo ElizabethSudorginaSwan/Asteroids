@@ -11,8 +11,6 @@ namespace SpaceShooter.Player
     [RequireComponent(typeof(PlayerMovement))]
     public class Shooter : MonoBehaviour
     {
-        [field: SerializeField] public BasePool BulletPool { get; set; }
-        [field: SerializeField] public BasePool LazerPool { get; set; }
         [field: SerializeField] public Transform FirePoint { get; private set; }
         [field: SerializeField] public float SpeedFire { get; private set; }
         [field: SerializeField] public float BlLifetime { get; private set; }
@@ -27,20 +25,25 @@ namespace SpaceShooter.Player
 
         private readonly List<GameObject> _bulletLazerList = new();
         private PlayerMovement _playerMovement;
+        private BulletPool _bulletPool;
+        private LazerPool _lazerPool;
         private GenericAmmunitionFactory _bulletFactory;
         private GenericAmmunitionFactory _lazerFactory;
 
-        public void Initialize(PlayerMovement playerMovement)
+        public void Initialize(PlayerMovement playerMovement, BulletPool bulletPool, LazerPool lazerPool)
         {
             _playerMovement = playerMovement;
+            _bulletPool = bulletPool;
+            _lazerPool = lazerPool;
 
-            _bulletFactory = new GenericAmmunitionFactory(BulletPool, SpeedFire, FirePoint);
-            _lazerFactory = new GenericAmmunitionFactory(LazerPool, SpeedFire, FirePoint);
+            _bulletFactory = new GenericAmmunitionFactory(_bulletPool, SpeedFire, FirePoint);
+            _lazerFactory = new GenericAmmunitionFactory(_lazerPool, SpeedFire, FirePoint);
 
             _currentLazerShots = MazLazerShots;
             UpdateLazerShots();
             UpdateRecharge();
         }
+
         private void Update()
         {
             if (!_playerMovement.Live)
@@ -73,7 +76,6 @@ namespace SpaceShooter.Player
         public void ShootBullet()
         {
             GameObject currentBullet = _bulletFactory.CreateAmmunition(FirePoint.position, Quaternion.identity);
-
             _bulletLazerList.Add(currentBullet);
 
             StartCoroutine(ReturnBulletToPoolAfterTime(currentBullet, BlLifetime));
@@ -93,7 +95,6 @@ namespace SpaceShooter.Player
             }
 
             GameObject currentLazer = _lazerFactory.CreateAmmunition(FirePoint.position, FirePoint.rotation);
-
             _bulletLazerList.Add(currentLazer);
 
             StartCoroutine(ReturnLazerToPoolAfterTime(currentLazer, BlLifetime));
@@ -112,13 +113,13 @@ namespace SpaceShooter.Player
         private IEnumerator ReturnBulletToPoolAfterTime(GameObject bullet, float delay)
         {
             yield return new WaitForSeconds(delay); 
-            BulletPool.ReturnObject(bullet); 
+            _bulletPool.ReturnObject(bullet); 
         }
 
         private IEnumerator ReturnLazerToPoolAfterTime(GameObject lazer, float delay)
         {
             yield return new WaitForSeconds(delay); 
-            LazerPool.ReturnObject(lazer); 
+            _lazerPool.ReturnObject(lazer); 
         }
 
         private void StartRecharge()
@@ -154,11 +155,11 @@ namespace SpaceShooter.Player
             {
                 if (bulletLazer.GetComponent<Bullet>())
                 {
-                    BulletPool.ReturnObject(bulletLazer);
+                    _bulletPool.ReturnObject(bulletLazer);
                 }
                 else if (bulletLazer.GetComponent<Lazer>())
                 {
-                    LazerPool.ReturnObject(bulletLazer);
+                    _lazerPool.ReturnObject(bulletLazer);
                 }
             }
         }

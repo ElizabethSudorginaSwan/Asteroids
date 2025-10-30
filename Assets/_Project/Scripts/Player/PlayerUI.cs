@@ -16,9 +16,10 @@ namespace SpaceShooter.Player
         [field: SerializeField] public GameObject GameOverScreen { get; private set; }
         [field: SerializeField] public GameObject GameScreen { get; private set; }
         [field: SerializeField] public Button RestartButton { get; private set; }
-        [field: SerializeField] public PauseGame PauseGame { get; private set; }
+        //[field: SerializeField] public PauseGame PauseGame { get; private set; }
 
         private ScoreManager _scoreManager;
+        private PauseGame _pauseGame;
         private Rigidbody2D _rb;
         
         private void Awake()
@@ -26,9 +27,10 @@ namespace SpaceShooter.Player
             RestartButton.onClick.AddListener(RestartGame);
         }
 
-        public void Initialize(ScoreManager scoreManager)
+        public void Initialize(ScoreManager scoreManager, PauseGame pauseGame)
         {
             _scoreManager = scoreManager;
+            _pauseGame = pauseGame;
         }
 
 
@@ -64,7 +66,7 @@ namespace SpaceShooter.Player
         
         private void RestartGame()
         {
-            PauseGame.SetPause(false);
+            _pauseGame.SetPause(false);
             HideGameOver();
             _scoreManager.ResetScore();
             PlayerMovement.SetLive(true);

@@ -6,11 +6,13 @@ namespace SpaceShooter.ObjectPool
 {
     public class LazerPool : BasePool
     {
-        [field: SerializeField] public ScoreManager ScoreManager { get; set; }
+        private ScoreManager _scoreManager;
 
-        public void Initialize(ScoreManager scoreManager)
+        public void Initialize(GameObject[] prefabs, int poolSize, ScoreManager scoreManager, Transform parent = null)
         {
-            ScoreManager = scoreManager;
+            _scoreManager = scoreManager;
+
+            base.Initialize(prefabs, poolSize, parent);
             InitializePool();
         }
         protected override void InitializePool()
@@ -20,7 +22,7 @@ namespace SpaceShooter.ObjectPool
             {
                 if (lazer.TryGetComponent(out Lazer lazerComponent))
                 {
-                    lazerComponent.Initialize(this, ScoreManager);
+                    lazerComponent.Initialize(this, _scoreManager);
                 }
             }
         }

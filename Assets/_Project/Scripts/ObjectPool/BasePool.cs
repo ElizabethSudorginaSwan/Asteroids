@@ -3,12 +3,21 @@ using UnityEngine;
 
 namespace SpaceShooter.ObjectPool
 {
-    public abstract class BasePool : MonoBehaviour
+    public abstract class BasePool
     {
-        [SerializeField] protected GameObject[] _prefabs;
-        [SerializeField] protected int _initialPoolSize;
-
+        protected GameObject[] _prefabs;
+        protected int _initialPoolSize;
+        protected Transform _parent;
         protected Queue<GameObject> _objectPool = new();
+
+        public virtual void Initialize(GameObject[] prefabs, int initialPoolSize, Transform parent = null)
+        {
+            _prefabs = prefabs;
+            _initialPoolSize = initialPoolSize;
+            _parent = parent;
+            InitializePool();
+
+        }
 
         protected virtual void InitializePool()
         {
@@ -20,18 +29,20 @@ namespace SpaceShooter.ObjectPool
             }
         }
 
-        protected GameObject CreateNewObject()
+        protected virtual GameObject CreateNewObject()
         {
-            if (_prefabs.Length > 1)
+            int randomIndex = Random.Range(0, _prefabs.Length);
+            GameObject obj = Object.Instantiate(_prefabs[randomIndex]);
+
+            if (_parent != null)
             {
-                int randomIndex = Random.Range(0, _prefabs.Length);
-                return Instantiate(_prefabs[randomIndex], transform);
+                obj.transform.SetParent(_parent);
             }
 
-            return Instantiate(_prefabs[0], transform);
+            return obj;
         }
 
-        public GameObject GetObject(Vector3 position, Quaternion rotation)
+        public virtual GameObject GetObject(Vector3 position, Quaternion rotation)
         {
             GameObject obj = _objectPool.Count > 0 ? _objectPool.Dequeue() : CreateNewObject();
 
@@ -41,10 +52,20 @@ namespace SpaceShooter.ObjectPool
             return obj;
         }
 
-        public void ReturnObject(GameObject obj)
+        public virtual void ReturnObject(GameObject obj)
         {
             obj.SetActive(false);
             _objectPool.Enqueue(obj);
+        }
+
+        public virtual void ClearPool()
+        {
+            foreach (var obj in _objectPool)
+            {
+                if (obj != null)
+                    Object.Destroy(obj);
+            }
+            _objectPool.Clear();
         }
     }
 }
