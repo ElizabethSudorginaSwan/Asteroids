@@ -11,14 +11,14 @@ namespace SpaceShooter.Score
 
         public void Initialize(ScoreManager scoreManager)
         {
-            if (_scoreManager != null)
-            {
-                _scoreManager.OnScoreChanged -= UpdateFinalTextScore;
-            }
-
             _scoreManager = scoreManager;
             scoreManager.OnScoreChanged += UpdateFinalTextScore;
             UpdateFinalTextScore(_scoreManager.CurrentScore);
+        }
+
+        private void OnDestroy()
+        {
+            _scoreManager.OnScoreChanged -= UpdateFinalTextScore;
         }
 
         public void UpdateFinalTextScore(int currentScore)

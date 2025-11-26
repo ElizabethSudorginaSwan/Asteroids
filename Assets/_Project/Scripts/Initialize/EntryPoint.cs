@@ -17,8 +17,8 @@ namespace SpaceShooter.Initializer
         [field: SerializeField] public ScoreManagerUI ScoreUI { get; set; }
         [field: SerializeField] public PlayerMovement PlayerMovement { get; set; }
         [field: SerializeField] public Shooter Shooter { get; set; }
+        [field: SerializeField] public ShooterUI ShooterUI { get; set; }
         
-        [field: SerializeField] public Transform[] SpawnPoints { get; private set; }
         [field: SerializeField] public float MinSizeUFO { get; private set; }
         [field: SerializeField] public float MaxSizeUFO { get; private set; }
         [field: SerializeField] public float SpawnIntervalUFO { get; private set; }
@@ -41,11 +41,11 @@ namespace SpaceShooter.Initializer
         [field: SerializeField] public int AsteroidPoolSize { get; private set; }
         [field: SerializeField] public int SmallAsteroidPoolSize { get; private set; }
 
-        [field: SerializeField] public Transform UfoPoolParent { get; private set; }
-        [field: SerializeField] public Transform AsteroidPoolParent { get; private set; }
-        [field: SerializeField] public Transform SmallAsteroidPoolParent { get; private set; }
-        [field: SerializeField] public Transform BulletPoolParent { get; private set; }
-        [field: SerializeField] public Transform LazerPoolParent { get; private set; }
+        private Transform _ufoPoolParent;
+        private Transform _asteroidPoolParent;
+        private Transform _smallAsteroidPoolParent;
+        private Transform _bulletPoolParent;
+        private Transform _lazerPoolParent;
 
         private ScoreManager _scoreManager;
         private PlayerInput _playerInput;
@@ -66,9 +66,26 @@ namespace SpaceShooter.Initializer
 
         private void InitializeGame()
         {
+            CreatePoolContainers();
             InitializePools();
             InitializeManagers();
             StartGame();
+        }
+
+        private void CreatePoolContainers()
+        {
+            _ufoPoolParent = CreatePoolContainer("UFOPool");
+            _asteroidPoolParent = CreatePoolContainer("AsteroidPool");
+            _smallAsteroidPoolParent = CreatePoolContainer("SmallAsteroidPool");
+            _bulletPoolParent = CreatePoolContainer("BulletPool");
+            _lazerPoolParent = CreatePoolContainer("LazerPool");
+        }
+
+        private Transform CreatePoolContainer(string containerName)
+        {
+            GameObject container = new GameObject(containerName);
+            container.transform.SetParent(transform);
+            return container.transform;
         }
 
         private void InitializePools()
@@ -79,17 +96,17 @@ namespace SpaceShooter.Initializer
             _bulletPool = new BulletPool();
             _lazerPool = new LazerPool();
 
-            _ufoPool.Initialize(UfoPrefabs, UfoPoolSize, UfoPoolParent);
-            _asteroidPool.Initialize(AsteroidPrefabs, AsteroidPoolSize, AsteroidPoolParent);
-            _smallAsteroidPool.Initialize(SmallAsteroidPrefabs, SmallAsteroidPoolSize, SmallAsteroidPoolParent);
+            _ufoPool.Initialize(UfoPrefabs, UfoPoolSize, _ufoPoolParent);
+            _asteroidPool.Initialize(AsteroidPrefabs, AsteroidPoolSize, _asteroidPoolParent);
+            _smallAsteroidPool.Initialize(SmallAsteroidPrefabs, SmallAsteroidPoolSize, _smallAsteroidPoolParent);
         }
 
         private void InitializeManagers()
         {
             _scoreManager = new ScoreManager();
 
-            _bulletPool.Initialize(BulletPrefabs, BulletPoolSize, _scoreManager, BulletPoolParent);
-            _lazerPool.Initialize(LazerPrefabs, LazerPoolSize, _scoreManager, LazerPoolParent);
+            _bulletPool.Initialize(BulletPrefabs, BulletPoolSize, _scoreManager, _bulletPoolParent);
+            _lazerPool.Initialize(LazerPrefabs, LazerPoolSize, _scoreManager, _lazerPoolParent);
 
             _playerInput = new PlayerInput();
             _spawnerUFO = new UFOSpawner();
@@ -98,11 +115,12 @@ namespace SpaceShooter.Initializer
 
             PlayerUI.Initialize(_scoreManager, _pauseGame);
             ScoreUI.Initialize(_scoreManager);
+            ShooterUI.Initialize(Shooter);
 
             PlayerMovement.Initialize(_playerInput, PlayerUI, _pauseGame);
 
-            _spawnerUFO.Initialize(_ufoPool, SpawnPoints, MinSizeUFO, MaxSizeUFO, SpawnIntervalUFO, PlayerMovement);
-            _spawnerAsteroid.Initialize(_asteroidPool, _smallAsteroidPool, SpawnPoints, MinSizeAsteroid,
+            _spawnerUFO.Initialize(_ufoPool, MinSizeUFO, MaxSizeUFO, SpawnIntervalUFO, PlayerMovement);
+            _spawnerAsteroid.Initialize(_asteroidPool, _smallAsteroidPool, MinSizeAsteroid,
                                         MaxSizeAsteroid, MinRotateAsteroid, MaxRotateAsteroid,
                                         SpawnIntervalAsteroid, PlayerMovement);
 

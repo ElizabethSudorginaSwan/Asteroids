@@ -16,12 +16,19 @@ namespace SpaceShooter.Player
         [field: SerializeField] public float BlLifetime { get; private set; }
         [field: SerializeField] public float RechargeTime { get; private set; }
         [field: SerializeField] public int MazLazerShots { get; private set; }
-        [field: SerializeField] public TMP_Text LazerShotsT { get; private set; }
-        [field: SerializeField] public TMP_Text RechargeT { get; private set; }
+
+        public delegate void LazerShot(int lazerCount);
+        public event LazerShot OnCountLazerChanged;
+        public int CurrentLazer => _currentLazerShots;
+
+        public delegate void TimeRecharge(float timeCount);
+        public event TimeRecharge OnTimeRecharge;
+        public float RechargeTimer => _remainingTime;
 
         private int _currentLazerShots;
         private float _rechargeTimer;
         private bool _isRecharging;
+        private float _remainingTime;
 
         private readonly List<GameObject> _bulletLazerList = new();
         private PlayerMovement _playerMovement;
@@ -133,19 +140,20 @@ namespace SpaceShooter.Player
 
         private void UpdateLazerShots()
         {
-            LazerShotsT.text = $"{_currentLazerShots}";
+            OnCountLazerChanged?.Invoke(_currentLazerShots);
         }
 
         private void UpdateRecharge()
         {
             if (_isRecharging)
             {
-                float remainingTime = RechargeTime - _rechargeTimer;
-                RechargeT.text = $"{Mathf.CeilToInt(remainingTime)}";
+                _remainingTime = RechargeTime - _rechargeTimer;
+                OnTimeRecharge?.Invoke(_remainingTime);
             }
             else
             {
-                RechargeT.text = "";
+                _remainingTime = 0f;
+                OnTimeRecharge?.Invoke(_remainingTime);
             }
         }
 

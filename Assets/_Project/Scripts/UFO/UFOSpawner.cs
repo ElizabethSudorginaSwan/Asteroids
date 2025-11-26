@@ -19,16 +19,14 @@ namespace SpaceShooter.UFOs
         private IEnemyFactory _ufoFactory;
         
         private BasePool _ufoPool;
-        private Transform[] _spawnPoints;
         private PlayerMovement _playerMovement;
         private CancellationTokenSource _spawnCts;
         private readonly List<GameObject> _spawnedUfos = new();
 
-        public void Initialize(BasePool ufoPool, Transform[] spawnPoints, float minSizeUFO, float maxSizeUFO, 
+        public void Initialize(BasePool ufoPool, float minSizeUFO, float maxSizeUFO, 
                                 float spawnIntervalUFO, PlayerMovement playerMovement)
         {
             _ufoPool = ufoPool;
-            _spawnPoints = spawnPoints;
             _minSizeUFO = minSizeUFO;
             _maxSizeUFO = maxSizeUFO;
             _spawnIntervalUFO = spawnIntervalUFO;
@@ -77,10 +75,9 @@ namespace SpaceShooter.UFOs
 
         private void SpawnUFO()
         {
-            int spawnIndex = UnityEngine.Random.Range(0, _spawnPoints.Length);
-            var spawnPoint = _spawnPoints[spawnIndex];
+            Vector3 spawnPosition = GetRandomPositionOutsideScreen();
 
-            var ufo = _ufoFactory.CreateEnemy(spawnPoint.position, Quaternion.identity, _playerMovement.transform);
+            var ufo = _ufoFactory.CreateEnemy(spawnPosition, Quaternion.identity, _playerMovement.transform);
 
             if (ufo.TryGetComponent(out UFOEnemy ufoScript))
             {
@@ -88,6 +85,39 @@ namespace SpaceShooter.UFOs
             }
 
             _spawnedUfos.Add(ufo);
+        }
+
+        private Vector3 GetRandomPositionOutsideScreen()
+        {
+            Camera mainCamera = Camera.main;
+            float padding = 0.2f;
+            int side = UnityEngine.Random.Range(0, 4);
+
+            Vector3 viewportPosition = Vector3.zero;
+
+            switch (side)
+            {
+                case 0:
+                    viewportPosition = new Vector3(-padding, UnityEngine.Random.Range(0f, 1f), mainCamera.nearClipPlane);
+                    break;
+
+                case 1:
+                    viewportPosition = new Vector3(1f + padding, UnityEngine.Random.Range(0f, 1f), mainCamera.nearClipPlane);
+                    break;
+
+                case 2:
+                    viewportPosition = new Vector3(UnityEngine.Random.Range(0f, 1f), -padding, mainCamera.nearClipPlane);
+                    break;
+
+                case 3:
+                    viewportPosition = new Vector3(UnityEngine.Random.Range(0f, 1f), 1f + padding, mainCamera.nearClipPlane);
+                    break;
+            }
+
+            Vector3 worldPosition = mainCamera.ViewportToWorldPoint(viewportPosition);
+            worldPosition.z = 0f;
+
+            return worldPosition;
         }
     }
 }
