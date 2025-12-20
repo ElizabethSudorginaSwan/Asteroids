@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 072af61cb32cdda4eacf206ad0aac6c2, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: 
+  MinSizeUFO: 1
+  MaxSizeUFO: 2
+  SpawnIntervalUFO: 6
+  MinSizeAsteroid: 2
+  MaxSizeAsteroid: 2.5
+  MinRotateAsteroid: 0
+  MaxRotateAsteroid: 360
+  SpawnIntervalAsteroid: 3
+  BulletPrefabs:
+  - {fileID: 2546274680469705691, guid: 476bd2e3b56fdb74691b7a7db63c14e4, type: 3}
+  LazerPrefabs:
+  - {fileID: 5364518919253420642, guid: 974bf1bf83f26e548afa54fa96d2e803, type: 3}
+  UfoPrefabs:
+  - {fileID: 7548519663342058718, guid: ac41aa107a66407408c04d55b911da8a, type: 3}
+  AsteroidPrefabs:
+  - {fileID: 968193875401966019, guid: fd6f8343343e1314bbb73b2c4f0214ed, type: 3}
+  - {fileID: 7395613593544690364, guid: fc33b409f8414134ea8edffa3d03d813, type: 3}
+  - {fileID: 3641151726534789435, guid: e2e92324148d9fb40bdef92acaa1cdb3, type: 3}
+  - {fileID: 7623148182634177678, guid: 709e25603ba82a3448624b722e332487, type: 3}
+  SmallAsteroidPrefabs:
+  - {fileID: 968193875401966019, guid: 59471970a3a5ad94e98632ea5ffa616b, type: 3}
+  - {fileID: 7395613593544690364, guid: 004c5162d27b07b46ab6c611d7862422, type: 3}
+  - {fileID: 3641151726534789435, guid: 4130d9770e6cc8e4983a98dac409a0c0, type: 3}
+  - {fileID: 7623148182634177678, guid: 925b22c1271f1e545b6d24e65775041e, type: 3}
+  BulletPoolSize: 10
+  LazerPoolSize: 5
+  UfoPoolSize: 5
+  AsteroidPoolSize: 10
+  SmallAsteroidPoolSize: 20

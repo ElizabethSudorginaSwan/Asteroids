@@ -5,9 +5,9 @@ namespace SpaceShooter.ObjectPool
 {
     public abstract class BasePool
     {
-        protected GameObject[] _prefabs;
-        protected int _initialPoolSize;
-        protected Transform _parent;
+        private GameObject[] _prefabs;
+        private int _initialPoolSize;
+        private Transform _parent;
         protected Queue<GameObject> _objectPool = new();
 
         public virtual void Initialize(GameObject[] prefabs, int initialPoolSize, Transform parent = null)
@@ -29,7 +29,7 @@ namespace SpaceShooter.ObjectPool
             }
         }
 
-        protected virtual GameObject CreateNewObject()
+        protected GameObject CreateNewObject()
         {
             int randomIndex = Random.Range(0, _prefabs.Length);
             GameObject obj = Object.Instantiate(_prefabs[randomIndex]);
@@ -42,7 +42,7 @@ namespace SpaceShooter.ObjectPool
             return obj;
         }
 
-        public virtual GameObject GetObject(Vector3 position, Quaternion rotation)
+        public GameObject GetObject(Vector3 position, Quaternion rotation)
         {
             GameObject obj = _objectPool.Count > 0 ? _objectPool.Dequeue() : CreateNewObject();
 
@@ -52,13 +52,13 @@ namespace SpaceShooter.ObjectPool
             return obj;
         }
 
-        public virtual void ReturnObject(GameObject obj)
+        public void ReturnObject(GameObject obj)
         {
             obj.SetActive(false);
             _objectPool.Enqueue(obj);
         }
 
-        public virtual void ClearPool()
+        public void ClearPool()
         {
             foreach (var obj in _objectPool)
             {

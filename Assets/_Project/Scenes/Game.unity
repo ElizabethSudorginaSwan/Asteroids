@@ -398,11 +398,11 @@ Transform:
   m_GameObject: {fileID: 145005903}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 139, y: 172, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 923128184}
+  m_Father: {fileID: 1910893781}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &145005906
 MonoBehaviour:
@@ -955,46 +955,7 @@ MonoBehaviour:
   <PlayerMovement>k__BackingField: {fileID: 2088563520}
   <Shooter>k__BackingField: {fileID: 2088563522}
   <ShooterUI>k__BackingField: {fileID: 1199759301}
-  <SpawnPoints>k__BackingField:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  <MinSizeUFO>k__BackingField: 1
-  <MaxSizeUFO>k__BackingField: 2
-  <SpawnIntervalUFO>k__BackingField: 6
-  <MinSizeAsteroid>k__BackingField: 2
-  <MaxSizeAsteroid>k__BackingField: 2.5
-  <MinRotateAsteroid>k__BackingField: 0
-  <MaxRotateAsteroid>k__BackingField: 360
-  <SpawnIntervalAsteroid>k__BackingField: 3
-  <BulletPrefabs>k__BackingField:
-  - {fileID: 2546274680469705691, guid: 476bd2e3b56fdb74691b7a7db63c14e4, type: 3}
-  <LazerPrefabs>k__BackingField:
-  - {fileID: 5364518919253420642, guid: 974bf1bf83f26e548afa54fa96d2e803, type: 3}
-  <UfoPrefabs>k__BackingField:
-  - {fileID: 7548519663342058718, guid: ac41aa107a66407408c04d55b911da8a, type: 3}
-  <AsteroidPrefabs>k__BackingField:
-  - {fileID: 968193875401966019, guid: fd6f8343343e1314bbb73b2c4f0214ed, type: 3}
-  - {fileID: 7395613593544690364, guid: fc33b409f8414134ea8edffa3d03d813, type: 3}
-  - {fileID: 3641151726534789435, guid: e2e92324148d9fb40bdef92acaa1cdb3, type: 3}
-  - {fileID: 7623148182634177678, guid: 709e25603ba82a3448624b722e332487, type: 3}
-  <SmallAsteroidPrefabs>k__BackingField:
-  - {fileID: 968193875401966019, guid: 59471970a3a5ad94e98632ea5ffa616b, type: 3}
-  - {fileID: 7395613593544690364, guid: 004c5162d27b07b46ab6c611d7862422, type: 3}
-  - {fileID: 3641151726534789435, guid: 4130d9770e6cc8e4983a98dac409a0c0, type: 3}
-  - {fileID: 7623148182634177678, guid: 925b22c1271f1e545b6d24e65775041e, type: 3}
-  <BulletPoolSize>k__BackingField: 10
-  <LazerPoolSize>k__BackingField: 5
-  <UfoPoolSize>k__BackingField: 5
-  <AsteroidPoolSize>k__BackingField: 10
-  <SmallAsteroidPoolSize>k__BackingField: 20
+  _config: {fileID: 11400000, guid: 13156cf3879bea04bb1cfe71357d16e1, type: 2}
 --- !u!4 &619240578
 Transform:
   m_ObjectHideFlags: 0
@@ -1516,8 +1477,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 145005905}
+  m_Children: []
   m_Father: {fileID: 110755698}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2770,6 +2730,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 145005905}
   - {fileID: 110755698}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

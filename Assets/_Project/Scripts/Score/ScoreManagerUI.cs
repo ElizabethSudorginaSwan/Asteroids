@@ -21,7 +21,7 @@ namespace SpaceShooter.Score
             _scoreManager.OnScoreChanged -= UpdateFinalTextScore;
         }
 
-        public void UpdateFinalTextScore(int currentScore)
+        private void UpdateFinalTextScore(int currentScore)
         {
             FinalScoreText.text = $"{currentScore}";
         }
