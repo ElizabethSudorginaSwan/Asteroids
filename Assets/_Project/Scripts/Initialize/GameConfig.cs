@@ -23,10 +23,13 @@ public class GameConfig : ScriptableObject
     public GameObject[] AsteroidPrefabs;
     public GameObject[] SmallAsteroidPrefabs;
 
+    public GameObject BackgroundPrefab;
+    public GameObject ScoreManagerPrefab;
+    public GameObject ButtonPlayAgainPrefab;
+
     public int BulletPoolSize;
     public int LazerPoolSize;
     public int UfoPoolSize;
     public int AsteroidPoolSize;
     public int SmallAsteroidPoolSize;
-
 }

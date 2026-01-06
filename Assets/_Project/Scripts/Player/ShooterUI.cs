@@ -8,8 +8,8 @@ namespace SpaceShooter.Player
 {
     public class ShooterUI : MonoBehaviour
     {
-        [field: SerializeField] public TMP_Text LazerShotsT { get; private set; }
-        [field: SerializeField] public TMP_Text RechargeT { get; private set; }
+        [field: SerializeField] public TMP_Text NowLazerShotsCount { get; private set; }
+        [field: SerializeField] public TMP_Text RechargeCount { get; private set; }
 
         private Shooter _shooter;
 
@@ -32,12 +32,12 @@ namespace SpaceShooter.Player
 
         public void UpdateLazerCountText(int currentLazer)
         {
-            LazerShotsT.text = $"{currentLazer}"; 
+            NowLazerShotsCount.text = $"{currentLazer}"; 
         }
 
         public void UpdateRechargeTime(float currentTime)
         {
-            RechargeT.text = $"{Mathf.CeilToInt(currentTime)}";
+            RechargeCount.text = $"{Mathf.CeilToInt(currentTime)}";
         }
     }
 }

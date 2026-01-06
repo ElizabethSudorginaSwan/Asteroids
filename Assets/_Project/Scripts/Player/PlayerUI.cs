@@ -1,3 +1,4 @@
+using SpaceShooter.Initializer;
 using SpaceShooter.ObjectPool;
 using SpaceShooter.Pause;
 using SpaceShooter.Score;
@@ -9,22 +10,23 @@ namespace SpaceShooter.Player
 {
     public class PlayerUI : MonoBehaviour
     {
-        [field: SerializeField] public TMP_Text SpeedText { get; private set; }
-        [field: SerializeField] public TMP_Text PositionText { get; private set; }
-        [field: SerializeField] public TMP_Text RotationText { get; private set; }
+        [field: SerializeField] public TMP_Text SpeedPlayerCount { get; private set; }
+        [field: SerializeField] public TMP_Text PositionPlayerCount { get; private set; }
+        [field: SerializeField] public TMP_Text RotationPlayerCount { get; private set; }
         [field: SerializeField] public PlayerMovement PlayerMovement { get; private set; }
-        [field: SerializeField] public GameObject GameOverScreen { get; private set; }
-        [field: SerializeField] public GameObject GameScreen { get; private set; }
-        [field: SerializeField] public Button RestartButton { get; private set; }
-        //[field: SerializeField] public PauseGame PauseGame { get; private set; }
+        [field: SerializeField] public GameObject CanvasGameOver { get; private set; }
+        [field: SerializeField] public GameObject CanvasGame { get; private set; }
 
+        private Button _buttonPlayAgainComponent;
         private ScoreManager _scoreManager;
         private PauseGame _pauseGame;
         private Rigidbody2D _rb;
-        
-        private void Awake()
+
+        public void InitializeButton(Button button)
         {
-            RestartButton.onClick.AddListener(RestartGame);
+            _buttonPlayAgainComponent = button;
+            _buttonPlayAgainComponent.onClick.AddListener(RestartGame);
+    
         }
 
         public void Initialize(ScoreManager scoreManager, PauseGame pauseGame)
@@ -32,7 +34,6 @@ namespace SpaceShooter.Player
             _scoreManager = scoreManager;
             _pauseGame = pauseGame;
         }
-
 
         public void SetRbPlayer(Rigidbody2D playerRb)
         {
@@ -48,22 +49,22 @@ namespace SpaceShooter.Player
 
         public void ShowGameOver()
         {
-            GameOverScreen.SetActive(true);
-            GameScreen.SetActive(false);
+            CanvasGameOver.SetActive(true);
+            CanvasGame.SetActive(false);
         }
 
         public void HideGameOver()
         {
-            GameOverScreen.SetActive(false);
-            GameScreen.SetActive(true);
+            CanvasGameOver.SetActive(false);
+            CanvasGame.SetActive(true);
         }
-
 
         private void OnDestroy()
         {
-            RestartButton.onClick.RemoveListener(RestartGame);
+            _buttonPlayAgainComponent.onClick.RemoveListener(RestartGame);
+
         }
-        
+
         private void RestartGame()
         {
             _pauseGame.SetPause(false);
@@ -75,19 +76,19 @@ namespace SpaceShooter.Player
         private void UpdateSpeed()
         {
             float speed = _rb.velocity.magnitude;
-            SpeedText.text = $"{speed:F2}";
+            SpeedPlayerCount.text = $"{speed:F2}";
         }
 
         private void UpdatePosition()
         {
             Vector2 pos = _rb.position;
-            PositionText.text = $"{pos.x:F1} | {pos.y:F1}";
+            PositionPlayerCount.text = $"{pos.x:F1} | {pos.y:F1}";
         }
 
         private void UpdateRotation()
         {
             float angle = _rb.rotation;
-            RotationText.text = $"{angle:F0}°";
+            RotationPlayerCount.text = $"{angle:F0}°";
         }
     }
 }

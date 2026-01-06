@@ -8,6 +8,7 @@ using SpaceShooter.Score;
 using SpaceShooter.UFOs;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UnityEngine.UI;
 
 namespace SpaceShooter.Initializer
 {
@@ -19,6 +20,7 @@ namespace SpaceShooter.Initializer
         [field: SerializeField] public Shooter Shooter { get; set; }
         [field: SerializeField] public ShooterUI ShooterUI { get; set; }
 
+        [SerializeField] private Transform _canvasGameOver;
         [SerializeField] private GameConfig _config;
 
         private Transform _ufoPoolParent;
@@ -39,6 +41,10 @@ namespace SpaceShooter.Initializer
         private AsteroidPool _asteroidPool;
         private SmallAsteroidPool _smallAsteroidPool;
 
+        private GameObject _backgroundInstance;
+        private ScoreManagerUI _createdScoreUI; 
+        private GameObject _buttonPlayAgainInstance;
+
         private void Awake()
         {
             InitializeGame();
@@ -46,25 +52,42 @@ namespace SpaceShooter.Initializer
 
         private void InitializeGame()
         {
+            CreateUIPrefabs();
             CreatePoolContainers();
             InitializePools();
-            InitializeManagers();
+            InitializeManagers(); 
             StartGame();
         }
 
-        private void CreatePoolContainers()
+        private void CreateUIPrefabs()
         {
-            _ufoPoolParent = CreatePoolContainer("UFOPool");
-            _asteroidPoolParent = CreatePoolContainer("AsteroidPool");
-            _smallAsteroidPoolParent = CreatePoolContainer("SmallAsteroidPool");
-            _bulletPoolParent = CreatePoolContainer("BulletPool");
-            _lazerPoolParent = CreatePoolContainer("LazerPool");
+            _backgroundInstance = Instantiate(_config.BackgroundPrefab, _canvasGameOver);
+            _backgroundInstance.name = "Background";
+
+            GameObject scoreUIObject = Instantiate(_config.ScoreManagerPrefab, _canvasGameOver);
+            scoreUIObject.name = "ScoreManagerUI";
+            _createdScoreUI = scoreUIObject.GetComponent<ScoreManagerUI>();
+            ScoreUI = _createdScoreUI;
+
+            _buttonPlayAgainInstance = Instantiate(_config.ButtonPlayAgainPrefab, _canvasGameOver);
+            _buttonPlayAgainInstance.name = "ButtonPlayAgain";
+            Button button = _buttonPlayAgainInstance.GetComponent<Button>();
+            PlayerUI.InitializeButton(button);
         }
 
-        private Transform CreatePoolContainer(string containerName)
+        private void CreatePoolContainers() 
         {
-            GameObject container = new GameObject(containerName);
-            container.transform.SetParent(transform);
+            _ufoPoolParent = CreatePoolContainer("UFOPool", transform);
+            _asteroidPoolParent = CreatePoolContainer("AsteroidPool", transform);
+            _smallAsteroidPoolParent = CreatePoolContainer("SmallAsteroidPool", transform);
+            _bulletPoolParent = CreatePoolContainer("BulletPool", transform);
+            _lazerPoolParent = CreatePoolContainer("LazerPool", transform);
+        }
+
+        private Transform CreatePoolContainer(string containerName, Transform parent)
+        {
+            GameObject container = new (containerName);
+            container.transform.SetParent(parent);
             return container.transform;
         }
 
@@ -105,6 +128,8 @@ namespace SpaceShooter.Initializer
                                         _config.SpawnIntervalAsteroid, PlayerMovement);
 
             Shooter.Initialize(PlayerMovement, _bulletPool, _lazerPool);
+
+         
         }
 
         private void StartGame()

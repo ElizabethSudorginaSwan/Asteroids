@@ -5,7 +5,7 @@ namespace SpaceShooter.Score
 {
     public class ScoreManagerUI : MonoBehaviour
     {
-        [field: SerializeField] public TMP_Text FinalScoreText { get; set; }
+        [field: SerializeField] public TMP_Text FinalScoreCount { get; set; }
 
         private ScoreManager _scoreManager;
 
@@ -23,7 +23,7 @@ namespace SpaceShooter.Score
 
         private void UpdateFinalTextScore(int currentScore)
         {
-            FinalScoreText.text = $"{currentScore}";
+            FinalScoreCount.text = $"{currentScore}";
         }
     }
 }

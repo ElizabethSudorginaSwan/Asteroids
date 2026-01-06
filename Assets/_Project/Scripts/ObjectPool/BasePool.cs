@@ -10,7 +10,7 @@ namespace SpaceShooter.ObjectPool
         private Transform _parent;
         protected Queue<GameObject> _objectPool = new();
 
-        public virtual void Initialize(GameObject[] prefabs, int initialPoolSize, Transform parent = null)
+        public void Initialize(GameObject[] prefabs, int initialPoolSize, Transform parent = null)
         {
             _prefabs = prefabs;
             _initialPoolSize = initialPoolSize;
