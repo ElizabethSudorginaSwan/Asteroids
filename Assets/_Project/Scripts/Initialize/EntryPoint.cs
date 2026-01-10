@@ -15,7 +15,6 @@ namespace SpaceShooter.Initializer
     public class EntryPoint : MonoBehaviour
     {
         [field: SerializeField] public PlayerUI PlayerUI { get; set; }
-        [field: SerializeField] public ScoreManagerUI ScoreUI { get; set; }
         [field: SerializeField] public PlayerMovement PlayerMovement { get; set; }
         [field: SerializeField] public Shooter Shooter { get; set; }
         [field: SerializeField] public ShooterUI ShooterUI { get; set; }
@@ -67,7 +66,6 @@ namespace SpaceShooter.Initializer
             GameObject scoreUIObject = Instantiate(_config.ScoreManagerPrefab, _canvasGameOver);
             scoreUIObject.name = "ScoreManagerUI";
             _createdScoreUI = scoreUIObject.GetComponent<ScoreManagerUI>();
-            ScoreUI = _createdScoreUI;
 
             _buttonPlayAgainInstance = Instantiate(_config.ButtonPlayAgainPrefab, _canvasGameOver);
             _buttonPlayAgainInstance.name = "ButtonPlayAgain";
@@ -117,7 +115,7 @@ namespace SpaceShooter.Initializer
             _pauseGame = new PauseGame();
 
             PlayerUI.Initialize(_scoreManager, _pauseGame);
-            ScoreUI.Initialize(_scoreManager);
+            _createdScoreUI.Initialize(_scoreManager);
             ShooterUI.Initialize(Shooter);
 
             PlayerMovement.Initialize(_playerInput, PlayerUI, _pauseGame);
