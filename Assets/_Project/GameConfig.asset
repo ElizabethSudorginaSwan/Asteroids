@@ -39,6 +39,9 @@ MonoBehaviour:
   BackgroundPrefab: {fileID: 5549756013298367520, guid: 882dc187f25f47c4d9db9d07ea2e0b26, type: 3}
   ScoreManagerPrefab: {fileID: 4966049640092936306, guid: e53875fabbb389547b18a36122cbc6c8, type: 3}
   ButtonPlayAgainPrefab: {fileID: 8470692372737029616, guid: 99c5c52c1b2342847b7741b3fa3bf755, type: 3}
+  UIPlayerPrefab: {fileID: 3419021348794132333, guid: ede3a143bbaf3cb43b90418176802e0c, type: 3}
+  UIShooterPrefab: {fileID: 3614621996963883861, guid: f4d7dc40102518848bf535c953a8f7be, type: 3}
+  PlayerPrefab: {fileID: 8317056810041712930, guid: 3ddb84386804a3341848c265e5e42c9e, type: 3}
   BulletPoolSize: 10
   LazerPoolSize: 5
   UfoPoolSize: 5

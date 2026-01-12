@@ -27,6 +27,11 @@ public class GameConfig : ScriptableObject
     public GameObject ScoreManagerPrefab;
     public GameObject ButtonPlayAgainPrefab;
 
+    public GameObject UIPlayerPrefab;
+    public GameObject UIShooterPrefab;
+
+    public GameObject PlayerPrefab;
+
     public int BulletPoolSize;
     public int LazerPoolSize;
     public int UfoPoolSize;

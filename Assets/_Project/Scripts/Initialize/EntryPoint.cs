@@ -14,13 +14,13 @@ namespace SpaceShooter.Initializer
 {
     public class EntryPoint : MonoBehaviour
     {
-        [field: SerializeField] public PlayerUI PlayerUI { get; set; }
-        [field: SerializeField] public PlayerMovement PlayerMovement { get; set; }
-        [field: SerializeField] public Shooter Shooter { get; set; }
-        [field: SerializeField] public ShooterUI ShooterUI { get; set; }
-
-        [SerializeField] private Transform _canvasGameOver;
         [SerializeField] private GameConfig _config;
+
+        [SerializeField] private Transform _canvasGameOverTransform;
+        [SerializeField] private Transform _canvasGameUITransform;
+        
+        [SerializeField] private GameObject _canvasGameOver;
+        [SerializeField] private GameObject _canvasGame;
 
         private Transform _ufoPoolParent;
         private Transform _asteroidPoolParent;
@@ -41,8 +41,14 @@ namespace SpaceShooter.Initializer
         private SmallAsteroidPool _smallAsteroidPool;
 
         private GameObject _backgroundInstance;
-        private ScoreManagerUI _createdScoreUI; 
+        private ScoreManagerUI _scoreManagerUI; 
         private GameObject _buttonPlayAgainInstance;
+
+        private PlayerUI _playerUI;
+        private ShooterUI _shooterUI;
+
+        private PlayerMovement _playerMovement;
+        private Shooter _shooter;
 
         private void Awake()
         {
@@ -51,6 +57,7 @@ namespace SpaceShooter.Initializer
 
         private void InitializeGame()
         {
+            CreatePlayerPrefab();
             CreateUIPrefabs();
             CreatePoolContainers();
             InitializePools();
@@ -58,19 +65,35 @@ namespace SpaceShooter.Initializer
             StartGame();
         }
 
+        private void CreatePlayerPrefab()
+        {
+            GameObject player = Instantiate(_config.PlayerPrefab);
+            player.name = "Player";
+            _playerMovement = player.GetComponent<PlayerMovement>();
+            _shooter = player.GetComponent<Shooter>();
+        }
+
         private void CreateUIPrefabs()
         {
-            _backgroundInstance = Instantiate(_config.BackgroundPrefab, _canvasGameOver);
+            GameObject playerUI = Instantiate(_config.UIPlayerPrefab, _canvasGameUITransform);
+            playerUI.name = "UIPlayer";
+            _playerUI = playerUI.GetComponent<PlayerUI>();
+
+            GameObject shooterUI = Instantiate(_config.UIShooterPrefab, _canvasGameUITransform);
+            shooterUI.name = "UIShooter";
+            _shooterUI = shooterUI.GetComponent<ShooterUI>();
+
+            _backgroundInstance = Instantiate(_config.BackgroundPrefab, _canvasGameOverTransform);
             _backgroundInstance.name = "Background";
 
-            GameObject scoreUIObject = Instantiate(_config.ScoreManagerPrefab, _canvasGameOver);
+            GameObject scoreUIObject = Instantiate(_config.ScoreManagerPrefab, _canvasGameOverTransform);
             scoreUIObject.name = "ScoreManagerUI";
-            _createdScoreUI = scoreUIObject.GetComponent<ScoreManagerUI>();
+            _scoreManagerUI = scoreUIObject.GetComponent<ScoreManagerUI>();
 
-            _buttonPlayAgainInstance = Instantiate(_config.ButtonPlayAgainPrefab, _canvasGameOver);
+            _buttonPlayAgainInstance = Instantiate(_config.ButtonPlayAgainPrefab, _canvasGameOverTransform);
             _buttonPlayAgainInstance.name = "ButtonPlayAgain";
             Button button = _buttonPlayAgainInstance.GetComponent<Button>();
-            PlayerUI.InitializeButton(button);
+            _playerUI.InitializeButton(button);  
         }
 
         private void CreatePoolContainers() 
@@ -114,26 +137,26 @@ namespace SpaceShooter.Initializer
             _spawnerAsteroid = new AsteroidSpawner();
             _pauseGame = new PauseGame();
 
-            PlayerUI.Initialize(_scoreManager, _pauseGame);
-            _createdScoreUI.Initialize(_scoreManager);
-            ShooterUI.Initialize(Shooter);
+            _playerUI.Initialize(_scoreManager, _pauseGame, _canvasGameOver, _canvasGame, _playerMovement);
+            _scoreManagerUI.Initialize(_scoreManager);
+            _shooterUI.Initialize(_shooter);
 
-            PlayerMovement.Initialize(_playerInput, PlayerUI, _pauseGame);
+            _playerMovement.Initialize(_playerInput, _playerUI, _pauseGame);
 
-            _spawnerUFO.Initialize(_ufoPool, _config.MinSizeUFO, _config.MaxSizeUFO, _config.SpawnIntervalUFO, PlayerMovement);
+            _spawnerUFO.Initialize(_ufoPool, _config.MinSizeUFO, _config.MaxSizeUFO, _config.SpawnIntervalUFO, _playerMovement);
             _spawnerAsteroid.Initialize(_asteroidPool, _smallAsteroidPool, _config.MinSizeAsteroid,
                                         _config.MaxSizeAsteroid, _config.MinRotateAsteroid, _config.MaxRotateAsteroid,
-                                        _config.SpawnIntervalAsteroid, PlayerMovement);
+                                        _config.SpawnIntervalAsteroid, _playerMovement);
 
-            Shooter.Initialize(PlayerMovement, _bulletPool, _lazerPool);
+            _shooter.Initialize(_playerMovement, _bulletPool, _lazerPool);
 
          
         }
 
         private void StartGame()
         {
-            PlayerMovement.SetLive(true);
-            PlayerUI.HideGameOver();
+            _playerMovement.SetLive(true);
+            _playerUI.HideGameOver();
             _scoreManager.ResetScore();
             _pauseGame.SetPause(false);
             _spawnerUFO.StartSpawning().Forget();

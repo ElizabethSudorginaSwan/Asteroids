@@ -13,26 +13,31 @@ namespace SpaceShooter.Player
         [field: SerializeField] public TMP_Text SpeedPlayerCount { get; private set; }
         [field: SerializeField] public TMP_Text PositionPlayerCount { get; private set; }
         [field: SerializeField] public TMP_Text RotationPlayerCount { get; private set; }
-        [field: SerializeField] public PlayerMovement PlayerMovement { get; private set; }
-        [field: SerializeField] public GameObject CanvasGameOver { get; private set; }
-        [field: SerializeField] public GameObject CanvasGame { get; private set; }
 
-        private Button _buttonPlayAgainComponent;
         private ScoreManager _scoreManager;
         private PauseGame _pauseGame;
+        private PlayerMovement _playerMovement;
+
+        private GameObject _canvasGameOver;
+        private GameObject _canvasGame;
+
+        private Button _buttonPlayAgainComponent;
         private Rigidbody2D _rb;
 
         public void InitializeButton(Button button)
         {
             _buttonPlayAgainComponent = button;
             _buttonPlayAgainComponent.onClick.AddListener(RestartGame);
-    
         }
 
-        public void Initialize(ScoreManager scoreManager, PauseGame pauseGame)
+        public void Initialize(ScoreManager scoreManager, PauseGame pauseGame, GameObject canvasGameOver,
+                                GameObject canvasGame, PlayerMovement playerMovement)
         {
             _scoreManager = scoreManager;
             _pauseGame = pauseGame;
+            _canvasGameOver = canvasGameOver;
+            _canvasGame = canvasGame;
+            _playerMovement = playerMovement;
         }
 
         public void SetRbPlayer(Rigidbody2D playerRb)
@@ -49,14 +54,14 @@ namespace SpaceShooter.Player
 
         public void ShowGameOver()
         {
-            CanvasGameOver.SetActive(true);
-            CanvasGame.SetActive(false);
+            _canvasGameOver.SetActive(true);
+            _canvasGame.SetActive(false);
         }
 
         public void HideGameOver()
         {
-            CanvasGameOver.SetActive(false);
-            CanvasGame.SetActive(true);
+            _canvasGameOver.SetActive(false);
+            _canvasGame.SetActive(true);
         }
 
         private void OnDestroy()
@@ -70,7 +75,7 @@ namespace SpaceShooter.Player
             _pauseGame.SetPause(false);
             HideGameOver();
             _scoreManager.ResetScore();
-            PlayerMovement.SetLive(true);
+            _playerMovement.SetLive(true);
         }
 
         private void UpdateSpeed()
