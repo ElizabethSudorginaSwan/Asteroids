@@ -353,7 +353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6511816034548371208}
-  - component: {fileID: 5915628739613905706}
+  - component: {fileID: 5755509292346343185}
   m_Layer: 0
   m_Name: UIShooter
   m_TagString: Untagged
@@ -378,7 +378,7 @@ Transform:
   - {fileID: 4178593857907639677}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5915628739613905706
+--- !u!114 &5755509292346343185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -387,11 +387,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3614621996963883861}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d23d1452d30af9b42968cbab6810a30c, type: 3}
+  m_Script: {fileID: 11500000, guid: 70d4708ab2ccaed4e869d5c560f80633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <NowLazerShotsCount>k__BackingField: {fileID: 1089727124597467586}
-  <RechargeCount>k__BackingField: {fileID: 2034699357208396397}
+  _nowLazerShotsCount: {fileID: 1089727124597467586}
+  _rechargeCount: {fileID: 2034699357208396397}
 --- !u!1 &5623809982107948473
 GameObject:
   m_ObjectHideFlags: 0

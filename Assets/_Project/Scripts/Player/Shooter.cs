@@ -5,6 +5,7 @@ using SpaceShooter.Factories;
 using SpaceShooter.ObjectPool;
 using System.Collections;
 using SpaceShooter.Ammunition;
+using SpaceShooter.MVPShooter;
 
 namespace SpaceShooter.Player
 {
@@ -17,38 +18,37 @@ namespace SpaceShooter.Player
         [field: SerializeField] public float RechargeTime { get; private set; }
         [field: SerializeField] public int MazLazerShots { get; private set; }
 
-        public delegate void LazerShot(int lazerCount);
-        public event LazerShot OnCountLazerChanged;
-        public int CurrentLazer => _currentLazerShots;
-
-        public delegate void TimeRecharge(float timeCount);
-        public event TimeRecharge OnTimeRecharge;
-        public float RechargeTimer => _remainingTime;
-
         private int _currentLazerShots;
         private float _rechargeTimer;
         private bool _isRecharging;
-        private float _remainingTime;
 
         private readonly List<GameObject> _bulletLazerList = new();
-        private PlayerMovement _playerMovement;
+        
         private BulletPool _bulletPool;
         private LazerPool _lazerPool;
+
         private GenericAmmunitionFactory _bulletFactory;
         private GenericAmmunitionFactory _lazerFactory;
 
-        public void Initialize(PlayerMovement playerMovement, BulletPool bulletPool, LazerPool lazerPool)
+        private PlayerMovement _playerMovement;
+        private ShooterUIPresenter _shooterUIPresenter;
+
+        public void Initialize(PlayerMovement playerMovement, BulletPool bulletPool, LazerPool lazerPool,
+                                ShooterUIPresenter shooterUIPresenter)
         {
             _playerMovement = playerMovement;
             _bulletPool = bulletPool;
             _lazerPool = lazerPool;
 
+            _shooterUIPresenter = shooterUIPresenter;
+
             _bulletFactory = new GenericAmmunitionFactory(_bulletPool, SpeedFire, FirePoint);
             _lazerFactory = new GenericAmmunitionFactory(_lazerPool, SpeedFire, FirePoint);
 
             _currentLazerShots = MazLazerShots;
-            UpdateLazerShots();
-            UpdateRecharge();
+
+            _shooterUIPresenter?.UpdateLazerCount(_currentLazerShots);
+            _shooterUIPresenter?.UpdateRechargeTime(0f);
         }
 
         private void Update()
@@ -59,14 +59,17 @@ namespace SpaceShooter.Player
                 _isRecharging = false;
                 _currentLazerShots = MazLazerShots;
                 _rechargeTimer = 0;
-                UpdateLazerShots();
-                UpdateRecharge();
+                _shooterUIPresenter?.UpdateRechargeTime(_rechargeTimer);
+                _shooterUIPresenter?.UpdateLazerCount(_currentLazerShots);
             }
 
             if (_isRecharging)
             {
                 _rechargeTimer += Time.deltaTime;
-                UpdateRecharge();
+
+                float remainingTime = RechargeTime - _rechargeTimer;
+
+                _shooterUIPresenter?.UpdateRechargeTime(remainingTime);
 
                 if (_rechargeTimer >= RechargeTime)
                 {
@@ -74,8 +77,8 @@ namespace SpaceShooter.Player
                     _currentLazerShots = MazLazerShots;
                     _rechargeTimer = 0;
 
-                    UpdateLazerShots();
-                    UpdateRecharge();
+                    _shooterUIPresenter?.UpdateLazerCount(_currentLazerShots);
+                    _shooterUIPresenter?.UpdateRechargeTime(0f);
                 }
             }
         }
@@ -108,13 +111,12 @@ namespace SpaceShooter.Player
 
             _currentLazerShots--;
 
+            _shooterUIPresenter?.UpdateLazerCount(_currentLazerShots);
+
             if (_currentLazerShots <= 0)
             {
                 StartRecharge();
             }
-
-            UpdateLazerShots();
-            UpdateRecharge();
         }
 
         private IEnumerator ReturnBulletToPoolAfterTime(GameObject bullet, float delay)
@@ -133,28 +135,6 @@ namespace SpaceShooter.Player
         {
             _isRecharging = true;
             _rechargeTimer = 0;
-
-            UpdateLazerShots();
-            UpdateRecharge();
-        }
-
-        private void UpdateLazerShots()
-        {
-            OnCountLazerChanged?.Invoke(_currentLazerShots);
-        }
-
-        private void UpdateRecharge()
-        {
-            if (_isRecharging)
-            {
-                _remainingTime = RechargeTime - _rechargeTimer;
-                OnTimeRecharge?.Invoke(_remainingTime);
-            }
-            else
-            {
-                _remainingTime = 0f;
-                OnTimeRecharge?.Invoke(_remainingTime);
-            }
         }
 
         private void ClearAllbulletLazer()

@@ -1,14 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using SpaceShooter.Asteroids;
+using SpaceShooter.MVPPlayer;
+using SpaceShooter.MVPShooter;
 using SpaceShooter.ObjectPool;
 using SpaceShooter.Pause;
 using SpaceShooter.Player;
 using SpaceShooter.Score;
 using SpaceShooter.UFOs;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
+
 
 namespace SpaceShooter.Initializer
 {
@@ -42,58 +45,63 @@ namespace SpaceShooter.Initializer
 
         private GameObject _backgroundInstance;
         private ScoreManagerUI _scoreManagerUI; 
-        private GameObject _buttonPlayAgainInstance;
 
-        private PlayerUI _playerUI;
-        private ShooterUI _shooterUI;
+        private PlayerUIView _playerUIView;
+        private ShooterUIView _shooterUIView;
 
         private PlayerMovement _playerMovement;
         private Shooter _shooter;
 
-        private void Awake()
-        {
-            InitializeGame();
-        }
+        private GameObject _playerPrefab;
 
-        private void InitializeGame()
+        private PlayerUIPresenter _playerUIPresenter;
+        private ShooterUIPresenter _shooterUIPresenter;
+
+
+        private void Awake()
         {
             CreatePlayerPrefab();
             CreateUIPrefabs();
             CreatePoolContainers();
             InitializePools();
-            InitializeManagers(); 
+            InitializeManagers();
             StartGame();
         }
 
         private void CreatePlayerPrefab()
         {
-            GameObject player = Instantiate(_config.PlayerPrefab);
-            player.name = "Player";
-            _playerMovement = player.GetComponent<PlayerMovement>();
-            _shooter = player.GetComponent<Shooter>();
+            _playerPrefab = CreatAndName("Player", null, _config.PlayerPrefab);
+            _playerMovement = _playerPrefab.GetComponent<PlayerMovement>();
+            _shooter = _playerPrefab.GetComponent<Shooter>();
         }
 
         private void CreateUIPrefabs()
         {
-            GameObject playerUI = Instantiate(_config.UIPlayerPrefab, _canvasGameUITransform);
-            playerUI.name = "UIPlayer";
-            _playerUI = playerUI.GetComponent<PlayerUI>();
+            _playerUIView = CreatAndName<PlayerUIView>("UIPlayer", _canvasGameUITransform, _config.UIPlayerPrefab);
 
-            GameObject shooterUI = Instantiate(_config.UIShooterPrefab, _canvasGameUITransform);
-            shooterUI.name = "UIShooter";
-            _shooterUI = shooterUI.GetComponent<ShooterUI>();
+            _shooterUIView = CreatAndName<ShooterUIView>("UIShooter", _canvasGameUITransform, _config.UIShooterPrefab);
 
-            _backgroundInstance = Instantiate(_config.BackgroundPrefab, _canvasGameOverTransform);
-            _backgroundInstance.name = "Background";
+            _backgroundInstance = CreatAndName("Background", _canvasGameOverTransform, _config.BackgroundPrefab);
 
-            GameObject scoreUIObject = Instantiate(_config.ScoreManagerPrefab, _canvasGameOverTransform);
-            scoreUIObject.name = "ScoreManagerUI";
-            _scoreManagerUI = scoreUIObject.GetComponent<ScoreManagerUI>();
+            _scoreManagerUI = CreatAndName<ScoreManagerUI>("ScoreManagerUI", _canvasGameOverTransform, _config.ScoreManagerPrefab);
 
-            _buttonPlayAgainInstance = Instantiate(_config.ButtonPlayAgainPrefab, _canvasGameOverTransform);
-            _buttonPlayAgainInstance.name = "ButtonPlayAgain";
-            Button button = _buttonPlayAgainInstance.GetComponent<Button>();
-            _playerUI.InitializeButton(button);  
+            Button button = CreatAndName<Button>("ButtonPlayAgain", _canvasGameOverTransform, _config.ButtonPlayAgainPrefab);
+            _playerUIView.InitializeRestartButton(button);  
+        }
+
+        private T CreatAndName<T>(string prefabName, Transform parentCanvas, T prefabComponent) where T : Component
+        {
+            GameObject prefabGameObject = prefabComponent.gameObject;
+            GameObject instance = Instantiate(prefabGameObject, parentCanvas);
+            instance.name = prefabName;
+            return instance.GetComponent<T>();
+        }
+
+        private GameObject CreatAndName(string prefabName, Transform parentCanvas, GameObject prefab)
+        {
+            GameObject instance = Instantiate(prefab, parentCanvas);
+            instance.name = prefabName;
+            return instance;
         }
 
         private void CreatePoolContainers() 
@@ -137,26 +145,39 @@ namespace SpaceShooter.Initializer
             _spawnerAsteroid = new AsteroidSpawner();
             _pauseGame = new PauseGame();
 
-            _playerUI.Initialize(_scoreManager, _pauseGame, _canvasGameOver, _canvasGame, _playerMovement);
             _scoreManagerUI.Initialize(_scoreManager);
-            _shooterUI.Initialize(_shooter);
 
-            _playerMovement.Initialize(_playerInput, _playerUI, _pauseGame);
+            InitializeShooterUIMVP();
+
+            _playerMovement.Initialize(_playerInput, _pauseGame, _playerUIPresenter);
 
             _spawnerUFO.Initialize(_ufoPool, _config.MinSizeUFO, _config.MaxSizeUFO, _config.SpawnIntervalUFO, _playerMovement);
             _spawnerAsteroid.Initialize(_asteroidPool, _smallAsteroidPool, _config.MinSizeAsteroid,
                                         _config.MaxSizeAsteroid, _config.MinRotateAsteroid, _config.MaxRotateAsteroid,
                                         _config.SpawnIntervalAsteroid, _playerMovement);
 
-            _shooter.Initialize(_playerMovement, _bulletPool, _lazerPool);
+            _shooter.Initialize(_playerMovement, _bulletPool, _lazerPool, _shooterUIPresenter);
 
          
+        }
+
+        private void InitializeShooterUIMVP()
+        {
+            ShooterUIModel shooterUIModel = new ();
+            _shooterUIPresenter = new ShooterUIPresenter(shooterUIModel, _shooterUIView, _shooter);
+
+            _shooterUIView.Init(_shooterUIPresenter);
+
+            PlayerUIModel playerUIModel = new ();
+            _playerUIPresenter = new PlayerUIPresenter(playerUIModel, _playerUIView, _pauseGame, _scoreManager, _playerMovement,
+                                                    _canvasGameOver, _canvasGame);
+            _playerUIView.Init(_playerUIPresenter);
         }
 
         private void StartGame()
         {
             _playerMovement.SetLive(true);
-            _playerUI.HideGameOver();
+            _playerUIPresenter.HideGameOverCanvas();
             _scoreManager.ResetScore();
             _pauseGame.SetPause(false);
             _spawnerUFO.StartSpawning().Forget();
@@ -177,6 +198,9 @@ namespace SpaceShooter.Initializer
             _smallAsteroidPool?.ClearPool();
             _bulletPool?.ClearPool();
             _lazerPool?.ClearPool();
+
+            _shooterUIPresenter?.OnShooterDestroyed();
+            _playerUIPresenter?.OnPlayerDestroyed();
         }
     }
 }

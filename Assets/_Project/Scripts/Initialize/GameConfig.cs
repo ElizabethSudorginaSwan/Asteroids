@@ -1,8 +1,11 @@
+using SpaceShooter.MVPPlayer;
+using SpaceShooter.MVPShooter;
 using SpaceShooter.Player;
 using SpaceShooter.Score;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu]
 public class GameConfig : ScriptableObject
@@ -24,11 +27,11 @@ public class GameConfig : ScriptableObject
     public GameObject[] SmallAsteroidPrefabs;
 
     public GameObject BackgroundPrefab;
-    public GameObject ScoreManagerPrefab;
-    public GameObject ButtonPlayAgainPrefab;
+    public ScoreManagerUI ScoreManagerPrefab;
+    public Button ButtonPlayAgainPrefab;
 
-    public GameObject UIPlayerPrefab;
-    public GameObject UIShooterPrefab;
+    public PlayerUIView UIPlayerPrefab;
+    public ShooterUIView UIShooterPrefab;
 
     public GameObject PlayerPrefab;
 
