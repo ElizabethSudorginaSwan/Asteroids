@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace SpaceShooter.ObjectPool
 {
-    public abstract class BasePool
+    public abstract class BasePool<T> : IPool where T : Component
     {
-        private GameObject[] _prefabs;
+        private T[] _prefabs;
         private int _initialPoolSize;
         private Transform _parent;
-        protected Queue<GameObject> _objectPool = new();
+        protected Queue<T> _objectPool = new();
 
-        public void Initialize(GameObject[] prefabs, int initialPoolSize, Transform parent = null)
+        public void Initialize(T[] prefabs, int initialPoolSize, Transform parent = null)
         {
             _prefabs = prefabs;
             _initialPoolSize = initialPoolSize;
@@ -22,17 +22,17 @@ namespace SpaceShooter.ObjectPool
         protected virtual void InitializePool()
         {
             for (int i = 0; i < _initialPoolSize; i++)
-            {
-                GameObject obj = CreateNewObject();
-                obj.SetActive(false);
+            {   
+                T obj = CreateNewObject();
+                obj.gameObject.SetActive(false);
                 _objectPool.Enqueue(obj);
             }
         }
 
-        protected GameObject CreateNewObject()
+        protected T CreateNewObject()
         {
             int randomIndex = Random.Range(0, _prefabs.Length);
-            GameObject obj = Object.Instantiate(_prefabs[randomIndex]);
+            T obj = Object.Instantiate(_prefabs[randomIndex]);
 
             if (_parent != null)
             {
@@ -42,20 +42,36 @@ namespace SpaceShooter.ObjectPool
             return obj;
         }
 
-        public GameObject GetObject(Vector3 position, Quaternion rotation)
+        public T GetObject(Vector3 position, Quaternion rotation)
         {
-            GameObject obj = _objectPool.Count > 0 ? _objectPool.Dequeue() : CreateNewObject();
+            T obj = _objectPool.Count > 0 ? _objectPool.Dequeue() : CreateNewObject();
 
             obj.transform.SetPositionAndRotation(position, rotation);
-            obj.SetActive(true);
+            obj.gameObject.SetActive(true);
 
             return obj;
         }
 
-        public void ReturnObject(GameObject obj)
+        // явна€ реализаци€ интерфейса IPool
+        GameObject IPool.GetObject(Vector3 position, Quaternion rotation)
         {
-            obj.SetActive(false);
+            T obj = GetObject(position, rotation);
+            return obj.gameObject;
+        }
+
+        public void ReturnObject(T obj)
+        {
+            obj.gameObject.SetActive(false);
             _objectPool.Enqueue(obj);
+        }
+
+        // явна€ реализаци€ интерфейса IPool
+        void IPool.ReturnObject(GameObject obj)
+        {
+            if (obj.TryGetComponent<T>(out T component))
+            {
+                ReturnObject(component);
+            }
         }
 
         public void ClearPool()

@@ -1,13 +1,13 @@
 using UnityEngine;
-using TMPro;
 using System.Collections.Generic;
 using SpaceShooter.Factories;
 using SpaceShooter.ObjectPool;
 using System.Collections;
-using SpaceShooter.Ammunition;
-using SpaceShooter.MVPShooter;
+using SpaceShooter.Ammunition;      
+using SpaceShooter.Player;
 
-namespace SpaceShooter.Player
+
+namespace SpaceShooter.ShooterPlayer
 {
     [RequireComponent(typeof(PlayerMovement))]
     public class Shooter : MonoBehaviour
@@ -24,8 +24,8 @@ namespace SpaceShooter.Player
 
         private readonly List<GameObject> _bulletLazerList = new();
         
-        private BulletPool _bulletPool;
-        private LazerPool _lazerPool;
+        private IPool _bulletPool;
+        private IPool _lazerPool;
 
         private GenericAmmunitionFactory _bulletFactory;
         private GenericAmmunitionFactory _lazerFactory;

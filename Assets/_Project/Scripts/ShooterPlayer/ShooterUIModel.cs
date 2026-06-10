@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Profiling;
-using UnityEngine;
-
-namespace SpaceShooter.MVPShooter
+namespace SpaceShooter.ShooterPlayer
 {
     public class ShooterUIModel 
     {
         private int _currentLazerShots;
         private float _remainingTime;
-        private int _maxLazerShots;
-        private float _rechargeTime;
+        private readonly int _maxLazerShots;
+        private readonly float _rechargeTime;
+
+        private readonly Shooter _shooter;
 
         public delegate void LazerShot(int lazerCount);
         public event LazerShot OnCountLazerChanged;
@@ -19,6 +16,15 @@ namespace SpaceShooter.MVPShooter
         public event TimeRecharge OnTimeRecharge;
 
         public int CurrentLazer => _currentLazerShots;
+
+        public ShooterUIModel(Shooter shooter)
+        {
+            _shooter = shooter;
+            _maxLazerShots = shooter.MazLazerShots;
+            _rechargeTime = shooter.RechargeTime;
+            UpdateLazerCount(_maxLazerShots);
+            UpdateRechargeTime(0f);
+        }
 
         public void UpdateLazerCount(int count)
         {
@@ -30,16 +36,6 @@ namespace SpaceShooter.MVPShooter
         {
             _remainingTime = time;
             OnTimeRecharge?.Invoke(_remainingTime);
-        }
-
-        public void SetMaxLazerShots(int max)
-        {
-            _maxLazerShots = max;
-        }
-
-        public void SetRechargeTime(float time)
-        {
-            _rechargeTime = time;
         }
     }
 }

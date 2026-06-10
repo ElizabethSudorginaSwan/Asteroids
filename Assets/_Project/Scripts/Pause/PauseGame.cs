@@ -1,10 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using SpaceShooter.Asteroids;
-using SpaceShooter.Initializer;
-using SpaceShooter.UFOs;
-using UnityEngine;
-
 namespace SpaceShooter.Pause
 {
     public class PauseGame

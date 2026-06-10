@@ -6,12 +6,12 @@ namespace SpaceShooter.Factories
 {
     public class UFOFactory : IEnemyFactory
     {
-        [field: SerializeField] public BasePool UfoPool {  get; set; }
+        [field: SerializeField] public IPool UfoPool {  get; set; }
 
         private readonly float _minSize;
         private readonly float _maxSize;
 
-        public UFOFactory(BasePool ufoPool, float minSize, float maxSize)
+        public UFOFactory(IPool ufoPool, float minSize, float maxSize)
         {
             UfoPool = ufoPool;
             _minSize = minSize;

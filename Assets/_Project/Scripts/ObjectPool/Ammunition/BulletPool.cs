@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace SpaceShooter.ObjectPool
 {
-    public class BulletPool : BasePool
+    public class BulletPool : BasePool<Bullet>
     {
         private ScoreManager _scoreManager;
 
-        public void Initialize(GameObject[] prefabs, int poolSize, ScoreManager scoreManager, Transform parent = null)
+        public void Initialize(Bullet[] prefabs, int poolSize, ScoreManager scoreManager, Transform parent = null)
         {
             _scoreManager = scoreManager;
 
@@ -21,10 +21,11 @@ namespace SpaceShooter.ObjectPool
             base.InitializePool();
             foreach (var bullet in _objectPool)
             {
-                if (bullet.TryGetComponent(out Bullet bulletComponent))
-                {
-                    bulletComponent.Initialize(this, _scoreManager);
-                }
+                bullet.Initialize(this, _scoreManager);
+                //if (bullet.TryGetComponent(out Bullet bulletComponent))
+                //{
+                //    bulletComponent.Initialize(this, _scoreManager);
+                //}
             }
         }
     }

@@ -1,10 +1,7 @@
-using SpaceShooter.Asteroids;
 using SpaceShooter.Enemies;
-using SpaceShooter.MVPPlayer;
 using SpaceShooter.Pause;
-using SpaceShooter.UFOs;
+using SpaceShooter.ShooterPlayer;
 using UnityEngine;
-using static SpaceShooter.MVPPlayer.PlayerUIModel;
 
 namespace SpaceShooter.Player
 {
@@ -108,12 +105,17 @@ namespace SpaceShooter.Player
         {
             if (collision.TryGetComponent<IDestructibleEnemy>(out _))
             {
+                if (!Live) return;
+
                 ResetPlayer();
-                UpdatePlayerDataForUI();
                 SetLive(false);
-                _pauseGame.SetPause(true);
-                _playerUIPresenter.OnPlayerDestroyed();
+
                 _playerUIPresenter.ShowGameOver();
+                _playerUIPresenter.OnPlayerDestroyed();
+
+                UpdatePlayerDataForUI();
+                
+                _pauseGame.SetPause(true);
             }
         }
 
@@ -122,7 +124,7 @@ namespace SpaceShooter.Player
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0f;
             transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-            UpdatePlayerDataForUI();
+            _playerUIPresenter?.UpdatePlayerData();
         }
     }
 }

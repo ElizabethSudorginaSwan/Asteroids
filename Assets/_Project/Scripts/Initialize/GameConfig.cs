@@ -1,9 +1,9 @@
-using SpaceShooter.MVPPlayer;
-using SpaceShooter.MVPShooter;
+using SpaceShooter.Ammunition;
+using SpaceShooter.Asteroids;
 using SpaceShooter.Player;
+using SpaceShooter.ShooterPlayer;
 using SpaceShooter.Score;
-using System.Collections;
-using System.Collections.Generic;
+using SpaceShooter.UFOs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,11 +20,11 @@ public class GameConfig : ScriptableObject
     public float MaxRotateAsteroid;
     public float SpawnIntervalAsteroid;
 
-    public GameObject[] BulletPrefabs;
-    public GameObject[] LazerPrefabs;
-    public GameObject[] UfoPrefabs;
-    public GameObject[] AsteroidPrefabs;
-    public GameObject[] SmallAsteroidPrefabs;
+    public Bullet[] BulletPrefabs;
+    public Lazer[] LazerPrefabs;
+    public UFOEnemy[] UfoPrefabs;
+    public AsteroidsEnemy[] AsteroidPrefabs;
+    public SmallAsteroidEnemy[] SmallAsteroidPrefabs;
 
     public GameObject BackgroundPrefab;
     public ScoreManagerUI ScoreManagerPrefab;
@@ -33,7 +33,9 @@ public class GameConfig : ScriptableObject
     public PlayerUIView UIPlayerPrefab;
     public ShooterUIView UIShooterPrefab;
 
-    public GameObject PlayerPrefab;
+    public PlayerGameOverUIView GameOverUIPrefab; 
+
+    public PlayerMovement PlayerPrefab;
 
     public int BulletPoolSize;
     public int LazerPoolSize;

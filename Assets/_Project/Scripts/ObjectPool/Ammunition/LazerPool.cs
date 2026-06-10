@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace SpaceShooter.ObjectPool
 {
-    public class LazerPool : BasePool
+    public class LazerPool : BasePool<Lazer>
     {
         private ScoreManager _scoreManager;
 
-        public void Initialize(GameObject[] prefabs, int poolSize, ScoreManager scoreManager, Transform parent = null)
+        public void Initialize(Lazer[] prefabs, int poolSize, ScoreManager scoreManager, Transform parent = null)
         {
             _scoreManager = scoreManager;
 
@@ -20,10 +20,11 @@ namespace SpaceShooter.ObjectPool
             base.InitializePool();
             foreach (var lazer in _objectPool)
             {
-                if (lazer.TryGetComponent(out Lazer lazerComponent))
-                {
-                    lazerComponent.Initialize(this, _scoreManager);
-                }
+                lazer.Initialize(this, _scoreManager);
+                //if (lazer.TryGetComponent(out Lazer lazerComponent))
+                //{
+                //    lazerComponent.Initialize(this, _scoreManager);
+                //}
             }
         }
     }

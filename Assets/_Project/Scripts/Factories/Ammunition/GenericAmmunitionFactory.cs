@@ -5,11 +5,11 @@ namespace SpaceShooter.Factories
 {
     public class GenericAmmunitionFactory : IAmmunitionFactory 
     {
-        private readonly BasePool _pool;
+        private readonly IPool _pool;
         private readonly float _speed;
         private readonly Transform _firePoint;
 
-        public GenericAmmunitionFactory(BasePool pool, float speed, Transform firePoint)
+        public GenericAmmunitionFactory(IPool pool, float speed, Transform firePoint)
         {
             _pool = pool;
             _speed = speed;

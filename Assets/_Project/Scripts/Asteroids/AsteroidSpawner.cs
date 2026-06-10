@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SpaceShooter.Player;
@@ -6,7 +5,6 @@ using SpaceShooter.Factories;
 using SpaceShooter.ObjectPool;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using SpaceShooter.UFOs;
 
 namespace SpaceShooter.Asteroids
 {
@@ -20,14 +18,14 @@ namespace SpaceShooter.Asteroids
 
         private IEnemyFactory _asteroidFactory;
 
-        private BasePool _asteroidPool;
-        private BasePool _smallAsteroidPool;
+        private IPool _asteroidPool;
+        private IPool _smallAsteroidPool;
 
         private PlayerMovement _playerMovement;
         private CancellationTokenSource _spawnCts;
         private readonly List<GameObject> _asteroidList = new();
 
-        public void Initialize(BasePool asteroidPool, BasePool smallAsteroidPool,
+        public void Initialize(IPool asteroidPool, IPool smallAsteroidPool,
                                float minSizeAsteroid, float maxSizeAsteroid, float minRotateAsteroid, 
                                float maxRotateSateroid, float spawnIntervalAsteroid, PlayerMovement playerMovement)
         {

@@ -1,30 +1,28 @@
-using SpaceShooter.Player;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace SpaceShooter.MVPShooter
+namespace SpaceShooter.ShooterPlayer
 {
     public class ShooterUIPresenter
     {
         private readonly ShooterUIModel _model;
-        private readonly BaseViewShooter _view;
-        private readonly Shooter _shooter;
+        private readonly ShooterUIView _view;
 
-        public ShooterUIPresenter(ShooterUIModel model, BaseViewShooter view, Shooter shooter)
+        public ShooterUIPresenter(ShooterUIModel model, ShooterUIView view)
         {
             _model = model;
             _view = view;
-            _shooter = shooter;
+            
+            SubscribeToEvents();
+        }
 
-            _model.SetMaxLazerShots(shooter.MazLazerShots);
-            _model.SetRechargeTime(shooter.RechargeTime);
-            _model.UpdateLazerCount(model.CurrentLazer);
-
-            _model.UpdateRechargeTime(0f);
-
+        private void SubscribeToEvents()
+        {
             _model.OnCountLazerChanged += HandleLazerCountChanged;
             _model.OnTimeRecharge += HandleRechargeTimeChanged;
+        }
+
+        private void UnsubscribeFromEvents()
+        {
+            _model.OnCountLazerChanged -= HandleLazerCountChanged;
+            _model.OnTimeRecharge -= HandleRechargeTimeChanged;
         }
 
         private void HandleLazerCountChanged(int count)
@@ -49,8 +47,7 @@ namespace SpaceShooter.MVPShooter
 
         public void OnShooterDestroyed()
         {
-            _model.OnCountLazerChanged -= HandleLazerCountChanged;
-            _model.OnTimeRecharge -= HandleRechargeTimeChanged;
+            UnsubscribeFromEvents();
         }
     }
 }

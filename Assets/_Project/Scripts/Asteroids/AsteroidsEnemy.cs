@@ -19,8 +19,8 @@ namespace SpaceShooter.Asteroids
         [field: SerializeField] public float MaxRotateSmallAsteroid { get; private set; }
         [field: SerializeField] public int ScoreValue { get; private set; }
 
-        private BasePool _smallAsteroidPool;
-        private BasePool _asteroidPool;
+        private IPool _smallAsteroidPool;
+        private IPool _asteroidPool;
         private PlayerMovement _playerMovement;
         private IEnemyFactory _smallAsteroidFactory;
         private readonly List<GameObject> _allSmallAsteroids = new ();
@@ -47,12 +47,12 @@ namespace SpaceShooter.Asteroids
             }
         }
 
-        public void SetSmallAsteroidPool(BasePool smallAsteroidPool)
+        public void SetSmallAsteroidPool(IPool smallAsteroidPool)
         {
             _smallAsteroidPool = smallAsteroidPool;
         }
 
-        public void SetAsteroidPool(BasePool asteroidPool)
+        public void SetAsteroidPool(IPool asteroidPool)
         {
             _asteroidPool = asteroidPool;
         }

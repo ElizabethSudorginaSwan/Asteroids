@@ -17,7 +17,7 @@ namespace SpaceShooter.Asteroids
         [field: SerializeField] public int CountScoreSmallAsteroid { get; private set; }
         [field: SerializeField] public int ScoreValue { get; private set; }
 
-        private BasePool _smallAsteroidPool;
+        private IPool _smallAsteroidPool;
         private List<GameObject> _parentList;
         private PlayerMovement _playerMovement;
         private Rigidbody2D _rb;
@@ -51,7 +51,7 @@ namespace SpaceShooter.Asteroids
             }
         }
 
-        public void SetSmallAsteroidPool(BasePool smallAsteroidPool)
+        public void SetSmallAsteroidPool(IPool smallAsteroidPool)
         {
             _smallAsteroidPool = smallAsteroidPool;
         }

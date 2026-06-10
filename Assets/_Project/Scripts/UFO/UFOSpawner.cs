@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SpaceShooter.Player;
@@ -18,12 +18,12 @@ namespace SpaceShooter.UFOs
 
         private IEnemyFactory _ufoFactory;
         
-        private BasePool _ufoPool;
+        private IPool _ufoPool;
         private PlayerMovement _playerMovement;
         private CancellationTokenSource _spawnCts;
         private readonly List<GameObject> _spawnedUfos = new();
 
-        public void Initialize(BasePool ufoPool, float minSizeUFO, float maxSizeUFO, 
+        public void Initialize(IPool ufoPool, float minSizeUFO, float maxSizeUFO, 
                                 float spawnIntervalUFO, PlayerMovement playerMovement)
         {
             _ufoPool = ufoPool;

@@ -1,6 +1,8 @@
 
+using SpaceShooter.Asteroids;
+
 namespace SpaceShooter.ObjectPool
 {
-    public class AsteroidPool : BasePool{}
+    public class AsteroidPool : BasePool<AsteroidsEnemy>{}
 }
 

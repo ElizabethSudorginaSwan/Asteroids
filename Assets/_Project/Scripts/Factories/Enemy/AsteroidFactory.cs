@@ -7,14 +7,14 @@ namespace SpaceShooter.Factories
 {
     public class AsteroidFactory : IEnemyFactory 
     {
-        [field: SerializeField] public BasePool AsteroidPool {  get; set; }
+        [field: SerializeField] public IPool AsteroidPool {  get; set; }
 
         private readonly float _minSize;
         private readonly float _maxSize;
         private readonly float _minRotation;
         private readonly float _maxRotation;
 
-        public AsteroidFactory(BasePool asteroidPool, float minSize, float maxSize, float minRotation, float maxRotation)
+        public AsteroidFactory(IPool asteroidPool, float minSize, float maxSize, float minRotation, float maxRotation)
         {
             AsteroidPool = asteroidPool;
             _minSize = minSize;

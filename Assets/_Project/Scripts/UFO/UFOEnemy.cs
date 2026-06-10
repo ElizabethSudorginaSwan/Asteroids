@@ -13,7 +13,7 @@ namespace SpaceShooter.UFOs
         [field: SerializeField] public int ScoreValue { get; private set; }
 
         private Transform _player;
-        private BasePool _ufoPool;
+        private IPool _ufoPool;
         private Rigidbody2D _rb;
         private Vector2 _moveDirection;
 
@@ -41,7 +41,7 @@ namespace SpaceShooter.UFOs
             }
         }
 
-        public void SetUfoPool(BasePool ufoPool)
+        public void SetUfoPool(IPool ufoPool)
         {
             _ufoPool = ufoPool;
         }

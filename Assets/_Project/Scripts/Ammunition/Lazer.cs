@@ -7,10 +7,10 @@ namespace SpaceShooter.Ammunition
 {
     public class Lazer : MonoBehaviour 
     {
-        private BasePool _pool;
+        private BasePool<Lazer> _pool;
         private ScoreManager _scoreManager;
 
-        public void Initialize(BasePool pool, ScoreManager scoreManager)
+        public void Initialize(BasePool<Lazer> pool, ScoreManager scoreManager)
         {
             _pool = pool;
             _scoreManager = scoreManager;
@@ -21,7 +21,7 @@ namespace SpaceShooter.Ammunition
             if (collision.TryGetComponent(out IDestructibleEnemy enemy))
             {
                 enemy.HandleLazerHit();
-                _pool.ReturnObject(gameObject);
+                _pool.ReturnObject(this);
                 _scoreManager.HitEnemy(enemy.ScoreValue);
             }
         }

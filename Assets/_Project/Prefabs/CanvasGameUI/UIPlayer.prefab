@@ -702,6 +702,7 @@ MonoBehaviour:
   _speedPlayerCount: {fileID: 585020028996223582}
   _positionPlayerCount: {fileID: 2599727000472834199}
   _rotationPlayerCount: {fileID: 8640262453173194123}
+  _restartButton: {fileID: 887437113423704715, guid: 99c5c52c1b2342847b7741b3fa3bf755, type: 3}
 --- !u!1 &5699786960054493702
 GameObject:
   m_ObjectHideFlags: 0

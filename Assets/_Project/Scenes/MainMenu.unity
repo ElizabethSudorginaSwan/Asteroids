@@ -300,6 +300,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332441019}
   m_CullTransparentMesh: 1
+--- !u!1 &385627372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 385627374}
+  - component: {fileID: 385627373}
+  m_Layer: 0
+  m_Name: MenuCompositionRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &385627373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385627372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d32284664f159b44ba0b5805a9eda90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneLoaderView: {fileID: 991568717}
+  _gameSceneIndex: 1
+--- !u!4 &385627374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385627372}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 236, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980496526
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,6 +450,7 @@ GameObject:
   - component: {fileID: 991568716}
   - component: {fileID: 991568715}
   - component: {fileID: 991568714}
+  - component: {fileID: 991568717}
   m_Layer: 5
   m_Name: ButtonStartGame
   m_TagString: Untagged
@@ -513,6 +560,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991568712}
   m_CullTransparentMesh: 1
+--- !u!114 &991568717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991568712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff58baa0117967045ae58ffa772f0de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playButton: {fileID: 991568714}
 --- !u!1 &1136487395
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,6 +826,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 980496529}
+  - {fileID: 385627374}
   - {fileID: 192269502}
   - {fileID: 1223141493}
   - {fileID: 1136487399}
